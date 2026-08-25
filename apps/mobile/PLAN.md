@@ -1,6 +1,7 @@
 # PLAN — Hermes Mobile
-<!-- Approved technical plan. Dependency installation still requires vetting;
-     high-risk operations retain their separate approval gates. -->
+<!-- Approved technical architecture and rolling-wave execution policy.
+     Dependency installation still requires vetting; high-risk operations
+     retain separate approval gates. -->
 
 ## Architecture
 
@@ -138,6 +139,14 @@ or agent reasoning. If implementation reveals a required agent-behavior change,
 stop and run the AI eval-design gate.
 
 ## Implementation phases
+
+Execution uses rolling-wave decomposition. TASKS.md exposes only the nearest
+work whose contracts, files, checks, dependencies, and parallel eligibility are
+known. Later milestones remain blocked decomposition gates. After the contract
+matrix or scaffold resolves their exact interfaces and paths, expand one wave,
+run a cross-document consistency check, and stop for explicit approval before
+executing it. The milestones below describe sequencing; they are not executable
+tasks by themselves.
 
 1. **Contract inventory and decisions** — map every Stage 1 Desktop action to a
    canonical REST/JSON-RPC contract; approve application ID and push provider;
