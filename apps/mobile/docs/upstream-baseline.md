@@ -22,6 +22,13 @@ All required references resolve to commits.
 - The worktree was clean before the check (`git status --porcelain` was empty).
 - `main` is an ancestor of `upstream/main`; fast-forwarding local `main` is safe.
 
-Decision: **fast-forward-safe**. The next step is HM-003, followed by merging
-the updated local `main` into `feat/mobile-app` without rebasing or rewriting
-shared history.
+Decision: **fast-forward-safe**. HM-003 fast-forwarded local `main` to
+`03c97d984b7259154545314d04d1c6093b6fcbe4`. HM-004 then merged that commit
+into `feat/mobile-app` as `1c77f75207` without rebasing or rewriting shared
+history. `upstream/main` is an ancestor of the merged feature branch.
+
+The merge was conflict-free. `git diff --check` and Python bytecode compilation
+for the upstream-touched runtime packages (`agent`, `gateway`, `hermes_cli`,
+`tui_gateway`, and `tools`) passed. JavaScript package checks were not available
+in this environment because `node` and `npm` are not installed; the mobile
+workspace has not yet been created at this point in the rolling wave.
