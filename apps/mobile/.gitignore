@@ -10,3 +10,10 @@ id_rsa*
 secrets/
 .claude/settings.local.json
 .agent-toolkit-backup/
+
+# Expo and Android-local build output. Keep app source/config files trackable.
+.expo/
+android/.gradle/
+android/local.properties
+android/**/build/
+dist/
