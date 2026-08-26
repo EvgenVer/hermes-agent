@@ -11,7 +11,7 @@ an Android SDK are absent from this host.
 | --- | --- | --- | --- |
 | [`jest-expo`](https://www.npmjs.com/package/jest-expo) | Official Expo Jest preset; current SDK 57-compatible release is `57.0.4`; maintained with the Expo SDK line and supports platform presets. | MIT; test preset. | Accept `~57.0.4`. |
 | [`@testing-library/react-native`](https://www.npmjs.com/package/@testing-library/react-native) | Maintained React Native Testing Library; current release is `14.0.1`; provides user-facing component queries and interaction helpers. | MIT; test library. | Accept exact `14.0.1`. |
-| [`react-test-renderer`](https://www.npmjs.com/package/react-test-renderer) | Official React package, current stable `19.2.8`, but React marks the renderer deprecated. RNTL's current native test stack still requires a matching renderer peer. | MIT; test-only compatibility peer. | Accept exact `19.2.7` as a direct dev peer matching the selected React, never call its low-level API directly, and track replacement with RNTL/React upgrades. |
+| [`react-test-renderer`](https://www.npmjs.com/package/react-test-renderer) | Official React package, current stable `19.2.8`, but React marks the renderer deprecated. RNTL's current native test stack still requires a matching renderer peer. | MIT; test-only compatibility peer. | Accept exact `19.2.3` as a direct dev peer matching the selected Expo template React, never call its low-level API directly, and track replacement with RNTL/React upgrades. |
 | Detox | [`Detox 20.51.3`](https://github.com/wix/Detox) is an active MIT project, but its official support matrix fully covers React Native only through 0.84.x; RN 0.86 is outside the validated range. | MIT; native E2E package. | Reject for the SDK 57/RN 0.86 baseline. |
 
 Expo's [Jest documentation](https://docs.expo.dev/develop/unit-testing/)
@@ -60,7 +60,7 @@ and HM-034 record the actual commands and evidence.
 ## Decision
 
 **Accept `jest-expo~57.0.4`, `@testing-library/react-native@14.0.1`, and the
-matching `react-test-renderer@19.2.7` dev peer with the stated deprecation
+matching `react-test-renderer@19.2.3` dev peer with the stated deprecation
 boundary.** Use Android SDK/emulator/`adb` smoke scripts instead of Detox for
 RN 0.86 until an E2E framework publishes a validated compatibility matrix. Do
 not add Detox or another native test dependency in the baseline.

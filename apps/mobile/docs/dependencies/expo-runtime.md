@@ -10,15 +10,14 @@ authorize installing packages before the scaffold and workspace tasks.
 | --- | --- | --- | --- |
 | [`expo`](https://www.npmjs.com/package/expo) | Official Expo package; registry latest is `57.0.16`; the package publishes the Expo CLI/runtime integration and is actively maintained by the Expo project. | MIT; runtime/build package. | Accept `~57.0.16`. |
 | [`react-native`](https://www.npmjs.com/package/react-native) | Official React Native package; the current registry latest is `0.87.0`, but Expo SDK 57 targets the 0.86 line. | MIT; native runtime. | Accept `0.86.2`, the Expo SDK 57-compatible patch selected for the scaffold. Reject latest `0.87.0` for this SDK line. |
-| [`react`](https://www.npmjs.com/package/react) | Official React package; current registry latest is `19.2.8`. The repository already uses `19.2.7` in the Desktop workspace. | MIT; JavaScript runtime. | Accept exact `19.2.7` to reuse the repository's existing React version and avoid an unnecessary workspace graph split. |
+| [`react`](https://www.npmjs.com/package/react) | Official React package; current registry latest is `19.2.8`. The SDK 57 reference template generates `19.2.3`; the repository Desktop workspace independently uses `19.2.7`. | MIT; JavaScript runtime. | Accept exact `19.2.3` to match the SDK 57 template and Expo compatibility table. |
 
 Expo's [SDK compatibility table](https://docs.expo.dev/versions/latest/)
 maps SDK 57 to React Native 0.86, React 19.2.3, Android 7+, compile SDK 36,
-target SDK 36, and Node 22.13.x. The selected React `19.2.7` is a patch-level
-update in the SDK table's React 19.2 line; the scaffold must run Expo's
-compatibility check and `npm ls` to prove the resolved peer graph. The selected
-React Native patch stays on 0.86 rather than following the registry's newer
-0.87 release.
+target SDK 36, and Node 22.13.x. The generated SDK 57 template also uses exact
+React `19.2.3`; selecting that value makes the reference scaffold and HM-023
+agree without a post-generation runtime edit. The selected React Native patch
+stays on 0.86 rather than following the registry's newer 0.87 release.
 
 ## Scripts and workspace impact
 
@@ -28,9 +27,10 @@ React Native patch stays on 0.86 rather than following the registry's newer
   workspace so the resolver selects the SDK-compatible patch line.
 - The repository root requires Node `>=22.22.0` and has npm workspace support;
   the SDK's documented Node floor is compatible with that repository engine.
-- `apps/mobile` must be private and must not define a competing React or React
-  Native version. The root Desktop package's React `19.2.7` is reused; the
-  mobile build must resolve one React Native `0.86.x` line.
+- `apps/mobile` must be private and must resolve one React `19.2.3` and one
+  React Native `0.86.x` line inside its own Metro graph. The root Desktop
+  workspace's React `19.2.7` remains an independent existing workspace choice;
+  it is not copied into the mobile package.
 - `@hermes/shared` remains a local workspace dependency and is not replaced by
   a registry package.
 
@@ -43,10 +43,11 @@ HM-032/HM-033. No lockfile claim is made here.
 - React Native `0.87.x` is rejected until an Expo SDK explicitly targets it;
   independently upgrading React Native would break the coupled Expo support
   contract.
-- React `19.2.8` is not selected despite being current because matching the
-  existing workspace patch reduces duplicate runtime resolution. If Expo's
-  installer rejects `19.2.7`, the compatibility failure must be resolved in a
-  new dependency-vetting update rather than by silently widening the range.
+- React `19.2.8` is not selected despite being current because the SDK 57
+  reference template and official compatibility table use `19.2.3`. If Expo's
+  installer rejects that exact template version, the compatibility failure must
+  be resolved in a new dependency-vetting update rather than by silently
+  widening the range.
 - Canary/beta Expo packages are rejected for the baseline scaffold. Expo
   documents those channels as pre-release and potentially incompatible with
   stable packages.
@@ -54,7 +55,7 @@ HM-032/HM-033. No lockfile claim is made here.
 ## Decision
 
 **Accept the stable SDK 57 runtime set:** `expo~57.0.16`,
-`react-native@0.86.2`, and `react@19.2.7`. The versions are exact in the
+`react-native@0.86.2`, and `react@19.2.3`. The versions are exact in the
 planned manifest for React/React Native and tilde-pinned to the SDK patch line
 for Expo. Validate the final peer graph with the Expo installer, `npm ls`, and
 the Android smoke harness before treating the set as materialized.

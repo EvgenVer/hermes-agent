@@ -10,7 +10,7 @@ installation remains a later scaffold task because this host has no Node/npm.
 | Dependency | Role | Version policy | Evidence |
 | --- | --- | --- | --- |
 | `expo` | Expo runtime and build integration | `~57.0.16` | [Expo/React runtime](expo-runtime.md) |
-| `react` | JavaScript runtime | `19.2.7` exact; reuse existing Desktop pin | [Expo/React runtime](expo-runtime.md) |
+| `react` | JavaScript runtime | `19.2.3` exact; match Expo SDK 57 reference template | [Expo/React runtime](expo-runtime.md) |
 | `react-native` | Native runtime | `0.86.2` exact; one RN 0.86 line | [Expo/React runtime](expo-runtime.md) |
 | `expo-router` | File-based native navigation | `~57.0.16` | [Router/build](expo-router-build.md) |
 | `@hermes/shared` | First-party JSON-RPC/WebSocket transport | local workspace package; no registry version | [Hermes shared](hermes-shared.md) |
@@ -24,7 +24,7 @@ installation remains a later scaffold task because this host has no Node/npm.
 | `expo-image-picker` | Image library selection | `~57.0.13` | [Attachments](attachments.md) |
 | `jest-expo` | Expo-compatible Jest preset | `~57.0.4` | [Testing](testing.md) |
 | `@testing-library/react-native` | User-facing component tests | `14.0.1` exact | [Testing](testing.md) |
-| `react-test-renderer` | RNTL matching dev peer only | `19.2.7` exact | [Testing](testing.md) |
+| `react-test-renderer` | RNTL matching dev peer only | `19.2.3` exact | [Testing](testing.md) |
 
 The selected list deliberately contains no global state package, no query
 persistence package, no native navigation alternative, and no provider SDK for
