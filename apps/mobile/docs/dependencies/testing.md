@@ -2,16 +2,19 @@
 
 Checked on 2026-08-26. This review defines the deterministic unit/component
 test layer and the Android smoke harness needed for the Expo SDK 57 scaffold.
-It does not claim that the current host can run these commands: Node, npm, and
-an Android SDK are absent from this host.
+Node/npm are available outside the default `PATH`; the Android SDK/emulator is
+not available on this host, so native commands remain deferred.
 
 ## Registry and compatibility
 
 | Item | Identity and health | License/type | Decision |
 | --- | --- | --- | --- |
 | [`jest-expo`](https://www.npmjs.com/package/jest-expo) | Official Expo Jest preset; current SDK 57-compatible release is `57.0.4`; maintained with the Expo SDK line and supports platform presets. | MIT; test preset. | Accept `~57.0.4`. |
-| [`@testing-library/react-native`](https://www.npmjs.com/package/@testing-library/react-native) | Maintained React Native Testing Library; current release is `14.0.1`; provides user-facing component queries and interaction helpers. | MIT; test library. | Accept exact `14.0.1`. |
-| [`react-test-renderer`](https://www.npmjs.com/package/react-test-renderer) | Official React package, current stable `19.2.8`, but React marks the renderer deprecated. RNTL's current native test stack still requires a matching renderer peer. | MIT; test-only compatibility peer. | Accept exact `19.2.3` as a direct dev peer matching the selected Expo template React, never call its low-level API directly, and track replacement with RNTL/React upgrades. |
+| [`@testing-library/react-native`](https://www.npmjs.com/package/@testing-library/react-native) | Maintained React Native Testing Library; current release is `14.0.1`; provides user-facing component queries and interaction helpers. Its peer contract requires `test-renderer`. | MIT; test library. | Accept exact `14.0.1`. |
+| [`test-renderer`](https://www.npmjs.com/package/test-renderer) | Community React 19 renderer package; current release is `1.2.0`, with React 19 peer support and an MIT license. RNTL 14 explicitly peers on the `test-renderer` package. | MIT; test-only compatibility peer. | Accept exact `1.2.0`; use only through RNTL and track its compatibility on React upgrades. |
+| [`jest`](https://www.npmjs.com/package/jest) | Official Jest package; `29.7.0` is the latest stable Jest 29 patch and matches the `jest-expo`/React Native preset dependency line. | MIT; test runner. | Accept exact `29.7.0`. |
+| [`@react-native/jest-preset`](https://www.npmjs.com/package/@react-native/jest-preset) | Official React Native preset; `0.86.2` matches the selected native runtime and is a required `jest-expo` peer. | MIT; test preset. | Accept exact `0.86.2`. |
+| [`react-test-renderer`](https://www.npmjs.com/package/react-test-renderer) | `jest-expo@57.0.4` brings `react-test-renderer@19.2.3` as an internal dependency, while React marks direct use of this renderer deprecated. | MIT; transitive compatibility dependency. | Do not add directly or call its API; accept only as the preset's transitive implementation detail. |
 | Detox | [`Detox 20.51.3`](https://github.com/wix/Detox) is an active MIT project, but its official support matrix fully covers React Native only through 0.84.x; RN 0.86 is outside the validated range. | MIT; native E2E package. | Reject for the SDK 57/RN 0.86 baseline. |
 
 Expo's [Jest documentation](https://docs.expo.dev/develop/unit-testing/)
@@ -59,8 +62,11 @@ and HM-034 record the actual commands and evidence.
 
 ## Decision
 
-**Accept `jest-expo~57.0.4`, `@testing-library/react-native@14.0.1`, and the
-matching `react-test-renderer@19.2.3` dev peer with the stated deprecation
-boundary.** Use Android SDK/emulator/`adb` smoke scripts instead of Detox for
+**Accept `jest-expo~57.0.4`, `@testing-library/react-native@14.0.1`,
+`test-renderer@1.2.0`, `jest@29.7.0`, and
+`@react-native/jest-preset@0.86.2`. The deprecated
+`react-test-renderer@19.2.3` remains only as `jest-expo`'s transitive
+implementation dependency and is not a direct dev dependency.
+Use Android SDK/emulator/`adb` smoke scripts instead of Detox for
 RN 0.86 until an E2E framework publishes a validated compatibility matrix. Do
 not add Detox or another native test dependency in the baseline.

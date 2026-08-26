@@ -68,7 +68,8 @@ each evidence file records registry identity, compatibility, license/type,
 maintenance, risks, and the installation gate.
 
 - [Expo/React runtime](docs/dependencies/expo-runtime.md): `expo~57.0.16`,
-  `react@19.2.3`, and `react-native@0.86.2`.
+  `react@19.2.3`, `react-native@0.86.2`, `typescript@6.0.3`, and
+  `@types/react@19.2.17`.
 - [Expo Router and Android build](docs/dependencies/expo-router-build.md):
   `expo-router~57.0.16`; Android minimum API 31, initial compile/target API
   36, and API 37 forward-compatibility validation.
@@ -89,9 +90,10 @@ maintenance, risks, and the installation gate.
 - [Attachments](docs/dependencies/attachments.md):
   `expo-document-picker~57.0.1` and `expo-image-picker~57.0.13`.
 - [Testing](docs/dependencies/testing.md): `jest-expo~57.0.4`,
-  `@testing-library/react-native@14.0.1`, and matching dev peer
-  `react-test-renderer@19.2.3`; Android SDK/emulator/`adb` smoke harness,
-  not Detox.
+  `@testing-library/react-native@14.0.1`, `test-renderer@1.2.0`,
+  `jest@29.7.0`, and `@react-native/jest-preset@0.86.2`; Android
+  SDK/emulator/`adb` smoke harness, not Detox. `jest-expo`'s transitive
+  `react-test-renderer@19.2.3` is not a direct dependency.
 
 No additional global-state or query-persistence package is selected initially.
 React Query, feature-local reducers/state machines, and small contexts should

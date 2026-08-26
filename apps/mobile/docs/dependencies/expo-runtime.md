@@ -11,6 +11,8 @@ authorize installing packages before the scaffold and workspace tasks.
 | [`expo`](https://www.npmjs.com/package/expo) | Official Expo package; registry latest is `57.0.16`; the package publishes the Expo CLI/runtime integration and is actively maintained by the Expo project. | MIT; runtime/build package. | Accept `~57.0.16`. |
 | [`react-native`](https://www.npmjs.com/package/react-native) | Official React Native package; the current registry latest is `0.87.0`, but Expo SDK 57 targets the 0.86 line. | MIT; native runtime. | Accept `0.86.2`, the Expo SDK 57-compatible patch selected for the scaffold. Reject latest `0.87.0` for this SDK line. |
 | [`react`](https://www.npmjs.com/package/react) | Official React package; current registry latest is `19.2.8`. The SDK 57 reference template generates `19.2.3`; the repository Desktop workspace independently uses `19.2.7`. | MIT; JavaScript runtime. | Accept exact `19.2.3` to match the SDK 57 template and Expo compatibility table. |
+| [`typescript`](https://www.npmjs.com/package/typescript) | Official TypeScript package; the repository and SDK 57 reference template use the 6.0 line. | Apache-2.0; dev/build tool. | Accept exact `6.0.3` to reuse the existing workspace pin. |
+| [`@types/react`](https://www.npmjs.com/package/@types/react) | DefinitelyTyped React declarations; the repository's Desktop/TUI workspaces use `19.2.17`. | MIT; dev type declarations. | Accept exact `19.2.17`; keep it aligned with the repository's existing type graph rather than the template's older `~19.2.2` suggestion. |
 
 Expo's [SDK compatibility table](https://docs.expo.dev/versions/latest/)
 maps SDK 57 to React Native 0.86, React 19.2.3, Android 7+, compile SDK 36,
