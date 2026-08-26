@@ -9,10 +9,16 @@ scaffold.
 | Item | Evidence |
 | --- | --- |
 | Package | [`expo-router`](https://www.npmjs.com/package/expo-router), the official Expo file-based router. |
+| Build properties | [`expo-build-properties`](https://www.npmjs.com/package/expo-build-properties), the official Expo config plugin for native build properties. |
 | Recommended version | Expo's [SDK 57 Router documentation](https://docs.expo.dev/versions/latest/sdk/router/) currently recommends `~57.0.16`; the repository selects `~57.0.12`, the newest patch eligible under its 14-day npm release-age gate. |
 | License/type | MIT; application runtime/config-plugin package. |
 | Maintenance | Official Expo package, released on the same SDK cadence as the selected stable runtime. The package must be installed through `npx expo install` so Expo checks the SDK-compatible patch. |
 | Native integration | The `expo-router` config plugin supplies the native entry-point configuration during prebuild; the default Expo Router template includes the plugin/entry setup. Its required direct peers are `expo-constants`, `expo-linking`, and `react-native-safe-area-context`, which are installed explicitly by the mobile workspace. |
+
+The mobile config also applies `expo-build-properties~57.0.10` during CNG so
+the generated Android project records minimum API 31 and compile/target API
+36. This is the age-safe SDK 57 patch selected under the repository's npm
+release-age gate; newer 57.x patches were not eligible at the time of vetting.
 
 Expo Router is the approved navigation surface. The mobile app should use
 file-based routes and Expo Router entry points, not direct application imports
@@ -67,7 +73,7 @@ Android 7+ and uses compile/target SDK 36. Therefore:
 
 ## Decision
 
-**Accept `expo-router~57.0.12`, its direct peer set
+**Accept `expo-router~57.0.12`, `expo-build-properties~57.0.10`, its direct peer set
 (`expo-constants~57.0.10`, `expo-linking~57.0.5`, and
 `react-native-safe-area-context~5.6.2`), and the Expo Router config-plugin/CNG path.** Use
 Android API 31 as the minimum test baseline, compile/target 36 for the initial

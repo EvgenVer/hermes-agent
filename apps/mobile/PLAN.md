@@ -71,9 +71,13 @@ maintenance, risks, and the installation gate.
   `react@19.2.7`, `react-native@0.86.2`, `typescript@6.0.3`, and
   `@types/react@19.2.17`.
 - [Expo Router and Android build](docs/dependencies/expo-router-build.md):
-  `expo-router~57.0.12`, `expo-constants~57.0.10`, `expo-linking~57.0.5`,
+  `expo-router~57.0.12`, `expo-build-properties~57.0.10`,
+  `expo-constants~57.0.10`, `expo-linking~57.0.5`,
   and `react-native-safe-area-context~5.6.2`; Android minimum API 31, initial compile/target API
   36, and API 37 forward-compatibility validation.
+- The root npm workspace also declares `expo-router@57.0.12` as a dev-only
+  peer-resolution dependency because Expo CLI is hoisted there while the app
+  keeps its direct runtime dependency.
 - [Hermes shared transport](docs/dependencies/hermes-shared.md): local
   `@hermes/shared`; reuse its reconnect/replay client after the recorded
   structural WebSocket portability edit.

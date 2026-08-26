@@ -6,11 +6,18 @@ type MobileAndroidConfig = NonNullable<ExpoConfig['android']> & {
   targetSdkVersion: number;
 };
 
-const android: MobileAndroidConfig = {
-  package: 'com.evgenver.hermesmobile',
+const androidBuildProperties = {
   minSdkVersion: 31,
   compileSdkVersion: 36,
   targetSdkVersion: 36,
+  buildToolsVersion: '36.0.0',
+} as const;
+
+const android: MobileAndroidConfig = {
+  package: 'com.evgenver.hermesmobile',
+  minSdkVersion: androidBuildProperties.minSdkVersion,
+  compileSdkVersion: androidBuildProperties.compileSdkVersion,
+  targetSdkVersion: androidBuildProperties.targetSdkVersion,
 };
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -23,7 +30,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   platforms: ['android'],
   userInterfaceStyle: 'automatic',
   android,
-  plugins: ['expo-router'],
+  plugins: [
+    [
+      'expo-build-properties',
+      {
+        android: androidBuildProperties,
+      },
+    ],
+    'expo-router',
+  ],
   experiments: {
     typedRoutes: true,
   },

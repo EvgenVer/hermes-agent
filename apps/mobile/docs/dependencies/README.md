@@ -17,6 +17,7 @@ patch on the same stable SDK line; the gate was not bypassed.
 | `typescript` | TypeScript compiler | `6.0.3` exact; reuse existing workspace pin | [Expo/React runtime](expo-runtime.md) |
 | `@types/react` | React type declarations | `19.2.17` exact; reuse existing workspace pin | [Expo/React runtime](expo-runtime.md) |
 | `expo-router` | File-based native navigation | `~57.0.12` | [Router/build](expo-router-build.md) |
+| `expo-build-properties` | Reproducible CNG Android build properties | `~57.0.10`; age-safe SDK 57 config plugin | [Router/build](expo-router-build.md) |
 | `expo-constants` | Router app metadata peer | `~57.0.10`; age-safe SDK 57 peer | [Router/build](expo-router-build.md) |
 | `expo-linking` | Router deep-linking peer | `~57.0.5`; age-safe SDK 57 peer | [Router/build](expo-router-build.md) |
 | `react-native-safe-area-context` | Router inset/layout peer | `~5.6.2`; age-safe version satisfying the router peer contract | [Router/build](expo-router-build.md) |
@@ -49,6 +50,13 @@ semver-compatible brace implementation while modern `minimatch@10` retains
 `brace-expansion@5.0.9`. This avoids the invalid tree caused by a single global
 override.
 
+The root workspace also keeps `expo-router@57.0.12` as a dev-only peer-
+resolution dependency. Expo CLI is hoisted to the root by npm workspaces, so
+its nested `@expo/router-server` must resolve the mobile app's Router package
+from the root during typed-route generation. The mobile workspace retains its
+direct runtime dependency; the root entry only makes that existing package
+available to the hoisted CLI.
+
 ## Rejected or deferred alternatives
 
 | Alternative | Decision and reason |
@@ -77,9 +85,10 @@ same issue for the latest Expo, Router, and Notifications patches. The
 age-safe replacements are `expo~57.0.12`, `expo-router~57.0.12`,
 `expo-image-picker~57.0.9`, and `expo-notifications~57.0.10`.
 
-The post-install security audit reports 17 transitive findings (9 moderate,
-8 high, no critical). The high findings are in the Expo/Metro build chain:
-`image-size`, `metro`, and their dependent config/transform packages. The
+The post-install security audit reports 18 transitive findings (9 moderate,
+9 high, no critical). The high findings include `nanoid` through the existing
+`expo-router` path and the Expo/Metro build chain (`image-size`, `metro`, and
+their dependent config/transform packages). The
 available Metro remediation (`@expo/metro~56.0.2` / Metro `0.84.5`) was
 published after the current 14-day cutoff, so it was not installed or pulled
 in with `audit fix`. The mobile scaffold is therefore not release-ready until

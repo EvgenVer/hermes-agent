@@ -26,9 +26,10 @@ default (`false`).
 
 ## Security and release status
 
-`npm audit --workspace apps/mobile --json` reports 17 transitive findings:
-9 moderate, 8 high, 0 critical. The high findings are in the Expo/Metro build
-chain (`image-size`, Metro/config/transform packages, and related dependencies).
+`npm audit --workspace apps/mobile --json` reports 18 transitive findings:
+9 moderate, 9 high, 0 critical. The high findings include `nanoid` through the
+existing Expo Router path and the Expo/Metro build chain (`image-size`,
+Metro/config/transform packages, and related dependencies).
 The available fixed Metro chain is newer than the current release-age cutoff,
 so it was not pulled in with `audit fix`. This scaffold passes development
 quality checks but is not release-ready until the age gate admits the fixed
@@ -46,7 +47,21 @@ available in the user environment:
 - clean AVD `hermes-api31`, visible as `emulator-5554` with Android 12 / SDK
   31 and WHPX acceleration.
 
-The Expo build/install/launch/restart flow and evidence capture are still
+The first native attempt reached `assembleDebug` successfully, but its JS
+bundle startup failed before installation because the hoisted Expo CLI could
+not resolve `expo-router/_ctx-shared` from the mobile workspace. The fix is
+now applied and covered by
+`src/__tests__/expo-workspace-resolution.test.ts`: the root workspace exposes
+the existing Router package to the hoisted CLI, while the app keeps its direct
+runtime dependency.
+
+The same build exposed that the plain Android config field did not update the
+generated Gradle minimum. `expo-build-properties~57.0.10` is now applied as a
+CNG plugin, and a fresh prebuild records `android.minSdkVersion=31`,
+`android.compileSdkVersion=36`, `android.targetSdkVersion=36`, and
+`android.buildToolsVersion=36.0.0`.
+
+The clean build/install/launch/restart flow and evidence capture are still
 pending. Until that flow passes, HM-034 remains in progress rather than
 complete.
 
