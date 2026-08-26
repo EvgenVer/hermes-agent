@@ -11,6 +11,7 @@ not available on this host, so native commands remain deferred.
 | --- | --- | --- | --- |
 | [`jest-expo`](https://www.npmjs.com/package/jest-expo) | Official Expo Jest preset; current SDK 57-compatible release is `57.0.4`; maintained with the Expo SDK line and supports platform presets. | MIT; test preset. | Accept `~57.0.4`. |
 | [`@testing-library/react-native`](https://www.npmjs.com/package/@testing-library/react-native) | Maintained React Native Testing Library; current release is `14.0.1`; provides user-facing component queries and interaction helpers. Its peer contract requires `test-renderer`. | MIT; test library. | Accept exact `14.0.1`. |
+| [`@types/jest`](https://www.npmjs.com/package/@types/jest) | DefinitelyTyped declarations for Jest globals; `29.5.14` matches the selected Jest 29 runner and supplies the TypeScript declarations used by the test files. | MIT; dev-only type declarations. | Accept exact `29.5.14`; keep aligned with the Jest major. |
 | [`test-renderer`](https://www.npmjs.com/package/test-renderer) | Community React 19 renderer package; current release is `1.2.0`, with React 19 peer support and an MIT license. RNTL 14 explicitly peers on the `test-renderer` package. | MIT; test-only compatibility peer. | Accept exact `1.2.0`; use only through RNTL and track its compatibility on React upgrades. |
 | [`jest`](https://www.npmjs.com/package/jest) | Official Jest package; `29.7.0` is the latest stable Jest 29 patch and matches the `jest-expo`/React Native preset dependency line. | MIT; test runner. | Accept exact `29.7.0`. |
 | [`@react-native/jest-preset`](https://www.npmjs.com/package/@react-native/jest-preset) | Official React Native preset; `0.86.2` matches the selected native runtime and is a required `jest-expo` peer. | MIT; test preset. | Accept exact `0.86.2`. |
@@ -63,6 +64,7 @@ and HM-034 record the actual commands and evidence.
 ## Decision
 
 **Accept `jest-expo~57.0.4`, `@testing-library/react-native@14.0.1`,
+`@types/jest@29.5.14`,
 `test-renderer@1.2.0`, `jest@29.7.0`, and
 `@react-native/jest-preset@0.86.2`. The deprecated
 `react-test-renderer@19.2.3` remains only as `jest-expo`'s transitive

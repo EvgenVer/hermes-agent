@@ -28,6 +28,7 @@ patch on the same stable SDK line; the gate was not bypassed.
 | `expo-image-picker` | Image library selection | `~57.0.9` | [Attachments](attachments.md) |
 | `jest-expo` | Expo-compatible Jest preset | `~57.0.4` | [Testing](testing.md) |
 | `@testing-library/react-native` | User-facing component tests | `14.0.1` exact | [Testing](testing.md) |
+| `@types/jest` | TypeScript declarations for Jest globals | `29.5.14` exact; align with Jest 29 | [Testing](testing.md) |
 | `test-renderer` | RNTL matching React 19 dev peer | `1.2.0` exact | [Testing](testing.md) |
 | `jest` | Test runner | `29.7.0` exact | [Testing](testing.md) |
 | `@react-native/jest-preset` | RN 0.86 Jest preset | `0.86.2` exact | [Testing](testing.md) |
@@ -64,3 +65,12 @@ was newer than the 14-day release-age cutoff; registry metadata showed the
 same issue for the latest Expo, Router, and Notifications patches. The
 age-safe replacements are `expo~57.0.12`, `expo-router~57.0.12`,
 `expo-image-picker~57.0.9`, and `expo-notifications~57.0.10`.
+
+The post-install security audit reported 17 transitive findings (9 moderate,
+8 high, no critical). The high findings are in the Expo/Metro build chain:
+`image-size`, `metro`, and their dependent config/transform packages. The
+available Metro remediation (`@expo/metro~56.0.2` / Metro `0.84.5`) was
+published after the current 14-day cutoff, so it was not installed or pulled
+in with `audit fix`. The mobile scaffold is therefore not release-ready until
+the age gate admits the fixed chain and a fresh audit is clean; this does not
+affect the HM-032 lockfile or the shell validation result.

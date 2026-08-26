@@ -90,7 +90,8 @@ maintenance, risks, and the installation gate.
 - [Attachments](docs/dependencies/attachments.md):
   `expo-document-picker~57.0.1` and `expo-image-picker~57.0.9`.
 - [Testing](docs/dependencies/testing.md): `jest-expo~57.0.4`,
-  `@testing-library/react-native@14.0.1`, `test-renderer@1.2.0`,
+  `@testing-library/react-native@14.0.1`, `@types/jest@29.5.14`,
+  `test-renderer@1.2.0`,
   `jest@29.7.0`, and `@react-native/jest-preset@0.86.2`; Android
   SDK/emulator/`adb` smoke harness, not Detox. `jest-expo`'s transitive
   `react-test-renderer@19.2.3` is not a direct dependency.
