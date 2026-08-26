@@ -37,10 +37,13 @@ chain and a fresh audit is clean.
 ## HM-034 native smoke blocker
 
 The required Android 12 baseline check was not run on this host. Read-only
-tool discovery on 2026-08-26 found no `adb`, `emulator`, `java`, or `gradle`
-command and neither `ANDROID_HOME` nor `ANDROID_SDK_ROOT` is set. No emulator
-was available to install, launch, restart, or capture evidence for
-`com.evgenver.hermesmobile`.
+tool discovery on 2026-08-26 found Android SDK platform-tools and emulator
+binaries under `C:\Users\Evgen\AppData\Local\Android\Sdk`, but no API 31
+system image or AVD. The SDK also has no `cmdline-tools`; Gradle is absent and
+the only discovered Java runtime is Java 8, which is not a supported native
+build runtime for this Expo/React Native stack. Neither `ANDROID_HOME` nor
+`ANDROID_SDK_ROOT` is set. No emulator was available to install, launch,
+restart, or capture evidence for `com.evgenver.hermesmobile`.
 
 When Android tooling is provisioned, HM-034 must use a clean API 31 emulator
 and run the install/launch/restart flow described in
