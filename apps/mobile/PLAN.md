@@ -62,32 +62,41 @@ verify that only one React Native version is linked into the mobile build.
 
 ## Selected dependencies
 
-All entries are proposed and require dependency-vetting before installation:
+Dependency vetting completed on 2026-08-26. The accepted versions and rejected
+alternatives are consolidated in [docs/dependencies/README.md](docs/dependencies/README.md);
+each evidence file records registry identity, compatibility, license/type,
+maintenance, risks, and the installation gate.
 
-- expo, react, react-native — mobile runtime/build foundation — runtime/build.
-- expo-router — typed native navigation and deep-link entry — runtime/build.
-- @hermes/shared — existing in-repository WebSocket/JSON-RPC utilities and future
-  shared mobile-safe contracts — runtime.
-- @tanstack/react-query — server state, cancellation, invalidation, and bounded
-  persisted read snapshots — runtime.
-- expo-secure-store — Android Keystore-backed credential/token storage — runtime.
-- expo-local-authentication — optional biometric app lock — runtime.
-- expo-sqlite — structured redacted cache with explicit migrations — runtime.
-- expo-notifications — notification permission, push token, receipt, and routing —
-  runtime.
-- expo-document-picker and expo-image-picker — supported chat attachments —
-  runtime.
-- @react-native-community/netinfo — connectivity hints; server probes remain
-  authoritative — runtime.
-- jest-expo and @testing-library/react-native — unit/component integration harness
-  compatible with React Native — test/dev.
+- [Expo/React runtime](docs/dependencies/expo-runtime.md): `expo~57.0.16`,
+  `react@19.2.7`, and `react-native@0.86.2`.
+- [Expo Router and Android build](docs/dependencies/expo-router-build.md):
+  `expo-router~57.0.16`; Android minimum API 31, initial compile/target API
+  36, and API 37 forward-compatibility validation.
+- [Hermes shared transport](docs/dependencies/hermes-shared.md): local
+  `@hermes/shared`; reuse its reconnect/replay client after the recorded
+  structural WebSocket portability edit.
+- [Connectivity/state](docs/dependencies/connectivity-state.md):
+  `@tanstack/react-query@5.101.2` and
+  `@react-native-community/netinfo@12.0.1`.
+- [Credential security](docs/dependencies/credential-security.md):
+  `expo-secure-store~57.0.1` and
+  `expo-local-authentication~57.0.2`.
+- [SQLite](docs/dependencies/sqlite.md): `expo-sqlite~57.0.1` for bounded,
+  redacted snapshots only.
+- [Notifications and push](docs/dependencies/notifications-push.md):
+  `expo-notifications~57.0.14`, Expo Push HTTPS, and existing Hermes
+  `httpx[socks]==0.28.1`; no new Python provider SDK.
+- [Attachments](docs/dependencies/attachments.md):
+  `expo-document-picker~57.0.1` and `expo-image-picker~57.0.13`.
+- [Testing](docs/dependencies/testing.md): `jest-expo~57.0.4`,
+  `@testing-library/react-native@14.0.1`, and matching dev peer
+  `react-test-renderer@19.2.7`; Android SDK/emulator/`adb` smoke harness,
+  not Detox.
 
-Avoid an additional global-state package initially. React Query, feature-local
-reducers/state machines, and small contexts should cover Stage 1; add a store only
-after a concrete cross-feature state problem is demonstrated and vetted.
-
-The proposed Expo Push Service provider should use Hermes' existing outbound HTTP
-stack if sufficient. Any new Python package requires separate vetting.
+No additional global-state or query-persistence package is selected initially.
+React Query, feature-local reducers/state machines, and small contexts should
+cover Stage 1; add a store only after a concrete cross-feature state problem is
+demonstrated and separately vetted.
 
 ## Data / API / integrations
 

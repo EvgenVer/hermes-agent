@@ -1,0 +1,52 @@
+# Mobile dependency decisions
+
+Vetted on 2026-08-26 for the Expo SDK 57 Stage 1 scaffold. These decisions
+record registry identity, official compatibility, maintenance/license review,
+and the accepted version policy. They do not materialize a lockfile; package
+installation remains a later scaffold task because this host has no Node/npm.
+
+## Accepted set
+
+| Dependency | Role | Version policy | Evidence |
+| --- | --- | --- | --- |
+| `expo` | Expo runtime and build integration | `~57.0.16` | [Expo/React runtime](expo-runtime.md) |
+| `react` | JavaScript runtime | `19.2.7` exact; reuse existing Desktop pin | [Expo/React runtime](expo-runtime.md) |
+| `react-native` | Native runtime | `0.86.2` exact; one RN 0.86 line | [Expo/React runtime](expo-runtime.md) |
+| `expo-router` | File-based native navigation | `~57.0.16` | [Router/build](expo-router-build.md) |
+| `@hermes/shared` | First-party JSON-RPC/WebSocket transport | local workspace package; no registry version | [Hermes shared](hermes-shared.md) |
+| `@tanstack/react-query` | Server-state cache and invalidation | `5.101.2` exact; reuse existing Desktop pin | [Connectivity/state](connectivity-state.md) |
+| `@react-native-community/netinfo` | Connectivity hint | `12.0.1` exact | [Connectivity/state](connectivity-state.md) |
+| `expo-secure-store` | Small credential/token storage | `~57.0.1` | [Credential security](credential-security.md) |
+| `expo-local-authentication` | Optional biometric app lock | `~57.0.2` | [Credential security](credential-security.md) |
+| `expo-sqlite` | Redacted local snapshots and migrations | `~57.0.1` | [SQLite](sqlite.md) |
+| `expo-notifications` | Local/remote notification client | `~57.0.14` | [Notifications/push](notifications-push.md) |
+| `expo-document-picker` | System document selection | `~57.0.1` | [Attachments](attachments.md) |
+| `expo-image-picker` | Image library selection | `~57.0.13` | [Attachments](attachments.md) |
+| `jest-expo` | Expo-compatible Jest preset | `~57.0.4` | [Testing](testing.md) |
+| `@testing-library/react-native` | User-facing component tests | `14.0.1` exact | [Testing](testing.md) |
+| `react-test-renderer` | RNTL matching dev peer only | `19.2.7` exact | [Testing](testing.md) |
+
+The selected list deliberately contains no global state package, no query
+persistence package, no native navigation alternative, and no provider SDK for
+Expo Push. The server will reuse Hermes' existing pinned `httpx[socks]==0.28.1`
+dependency rather than adding a Python package.
+
+## Rejected or deferred alternatives
+
+| Alternative | Decision and reason |
+| --- | --- |
+| React Native `0.87.x` | Rejected until an Expo SDK explicitly targets it; SDK 57 targets RN 0.86. |
+| Expo canary/beta packages | Rejected for the stable baseline because they are pre-release and can diverge from the selected SDK patch set. |
+| Detox `20.51.3` | Rejected for the baseline: its official support matrix is validated through RN 0.84.x, while this app uses RN 0.86. |
+| `@config-plugins/detox` | Rejected with Detox; a config plugin does not remove the unsupported RN compatibility risk. |
+| Expo Push Python SDK | Rejected; the existing Hermes `httpx` stack is sufficient for the documented HTTPS API, batching, backoff, and receipt workflow. |
+| SQLCipher | Deferred/rejected for Stage 1 because the SQLite cache excludes credentials and unredacted sensitive data; adding encryption later is a new security/dependency decision. |
+| Additional store/persistence library | Deferred; feature-local state, React Query, and an explicit SQLite projection cover the approved Stage 1 needs. |
+
+## Installation gate
+
+HM-024/HM-032 must install through the repository's supported Node/npm
+toolchain, run Expo compatibility checks, and materialize the lockfile. The
+result must prove one React version, one React Native 0.86 version, and no
+unlisted/rejected package. Any resolver conflict reopens dependency vetting;
+it must not be hidden by widening ranges or adding an unreviewed replacement.
