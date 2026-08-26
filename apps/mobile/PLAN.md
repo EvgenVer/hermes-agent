@@ -67,11 +67,11 @@ alternatives are consolidated in [docs/dependencies/README.md](docs/dependencies
 each evidence file records registry identity, compatibility, license/type,
 maintenance, risks, and the installation gate.
 
-- [Expo/React runtime](docs/dependencies/expo-runtime.md): `expo~57.0.16`,
+- [Expo/React runtime](docs/dependencies/expo-runtime.md): `expo~57.0.12`,
   `react@19.2.3`, `react-native@0.86.2`, `typescript@6.0.3`, and
   `@types/react@19.2.17`.
 - [Expo Router and Android build](docs/dependencies/expo-router-build.md):
-  `expo-router~57.0.16`; Android minimum API 31, initial compile/target API
+  `expo-router~57.0.12`; Android minimum API 31, initial compile/target API
   36, and API 37 forward-compatibility validation.
 - [Hermes shared transport](docs/dependencies/hermes-shared.md): local
   `@hermes/shared`; reuse its reconnect/replay client after the recorded
@@ -85,10 +85,10 @@ maintenance, risks, and the installation gate.
 - [SQLite](docs/dependencies/sqlite.md): `expo-sqlite~57.0.1` for bounded,
   redacted snapshots only.
 - [Notifications and push](docs/dependencies/notifications-push.md):
-  `expo-notifications~57.0.14`, Expo Push HTTPS, and existing Hermes
+  `expo-notifications~57.0.10`, Expo Push HTTPS, and existing Hermes
   `httpx[socks]==0.28.1`; no new Python provider SDK.
 - [Attachments](docs/dependencies/attachments.md):
-  `expo-document-picker~57.0.1` and `expo-image-picker~57.0.13`.
+  `expo-document-picker~57.0.1` and `expo-image-picker~57.0.9`.
 - [Testing](docs/dependencies/testing.md): `jest-expo~57.0.4`,
   `@testing-library/react-native@14.0.1`, `test-renderer@1.2.0`,
   `jest@29.7.0`, and `@react-native/jest-preset@0.86.2`; Android

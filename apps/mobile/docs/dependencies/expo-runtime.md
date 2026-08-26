@@ -8,7 +8,7 @@ authorize installing packages before the scaffold and workspace tasks.
 
 | Package | Registry identity and health | License/type | Decision |
 | --- | --- | --- | --- |
-| [`expo`](https://www.npmjs.com/package/expo) | Official Expo package; registry latest is `57.0.16`; the package publishes the Expo CLI/runtime integration and is actively maintained by the Expo project. | MIT; runtime/build package. | Accept `~57.0.16`. |
+| [`expo`](https://www.npmjs.com/package/expo) | Official Expo package; registry latest is `57.0.16`; the package publishes the Expo CLI/runtime integration and is actively maintained by the Expo project. | MIT; runtime/build package. | Accept `~57.0.12`, the newest patch eligible under the repository's 14-day npm release-age gate. |
 | [`react-native`](https://www.npmjs.com/package/react-native) | Official React Native package; the current registry latest is `0.87.0`, but Expo SDK 57 targets the 0.86 line. | MIT; native runtime. | Accept `0.86.2`, the Expo SDK 57-compatible patch selected for the scaffold. Reject latest `0.87.0` for this SDK line. |
 | [`react`](https://www.npmjs.com/package/react) | Official React package; current registry latest is `19.2.8`. The SDK 57 reference template generates `19.2.3`; the repository Desktop workspace independently uses `19.2.7`. | MIT; JavaScript runtime. | Accept exact `19.2.3` to match the SDK 57 template and Expo compatibility table. |
 | [`typescript`](https://www.npmjs.com/package/typescript) | Official TypeScript package; the repository and SDK 57 reference template use the 6.0 line. | Apache-2.0; dev/build tool. | Accept exact `6.0.3` to reuse the existing workspace pin. |
@@ -36,9 +36,9 @@ stays on 0.86 rather than following the registry's newer 0.87 release.
 - `@hermes/shared` remains a local workspace dependency and is not replaced by
   a registry package.
 
-The current host has neither `node` nor `npm`, so installation, lockfile
-materialization, `npm ls`, and Expo doctor checks are deferred to HM-024 and
-HM-032/HM-033. No lockfile claim is made here.
+The current host provides Node `v24.14.0` and a supported npm runner
+`11.17.0` through `npx`. HM-032 must materialize the lockfile with that
+supported runner; no lockfile claim is made by this evidence document.
 
 ## Rejected alternatives and risks
 
@@ -56,8 +56,10 @@ HM-032/HM-033. No lockfile claim is made here.
 
 ## Decision
 
-**Accept the stable SDK 57 runtime set:** `expo~57.0.16`,
+**Accept the stable SDK 57 runtime set:** `expo~57.0.12`,
 `react-native@0.86.2`, and `react@19.2.3`. The versions are exact in the
 planned manifest for React/React Native and tilde-pinned to the SDK patch line
-for Expo. Validate the final peer graph with the Expo installer, `npm ls`, and
-the Android smoke harness before treating the set as materialized.
+for Expo. The selected Expo patch is the newest registry version that passed
+the repository's 14-day release-age gate during HM-032. Validate the final
+peer graph with the Expo installer, `npm ls`, and the Android smoke harness
+before treating the set as materialized.

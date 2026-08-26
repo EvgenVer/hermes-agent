@@ -36,8 +36,8 @@ The generated `package.json` contains these approved core values:
 | Field | Generated value | HM-023 result |
 | --- | --- | --- |
 | `main` | `expo-router/entry` | matches the approved Router entry |
-| `expo` | `~57.0.16` | matches |
-| `expo-router` | `~57.0.16` | matches |
+| `expo` | `~57.0.16` | SDK 57 family; final manifest uses age-safe `~57.0.12` |
+| `expo-router` | `~57.0.16` | SDK 57 family; final manifest uses age-safe `~57.0.12` |
 | `react` | `19.2.3` | matches |
 | `react-native` | `0.86.2` | matches |
 
@@ -47,6 +47,14 @@ for the product manifest. The generated `app.json` includes Expo's placeholder
 identity, `expo-router`/splash config plugins, typed routes, and demo assets.
 HM-025 marks identity, API properties, permissions, and product assets for
 adaptation rather than copying them unchanged.
+
+The generated reference used the then-current `57.0.16` patch releases.
+During HM-032, npm's repository-level 14-day release-age gate correctly
+rejected those August 24 patches. The materialized product manifest therefore
+uses the newest eligible SDK 57 patches (`expo~57.0.12` and
+`expo-router~57.0.12`) while retaining the generated React `19.2.3` and
+React Native `0.86.2` runtime pair. This is a patch-level age-gate adjustment,
+not a change of Expo SDK, React, or React Native family.
 
 ## Repository safety check
 

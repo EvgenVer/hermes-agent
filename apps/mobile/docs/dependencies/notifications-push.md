@@ -8,7 +8,7 @@ put provider credentials or notification secrets in the mobile bundle.
 
 | Item | Identity/health | License/type | Decision |
 | --- | --- | --- | --- |
-| [`expo-notifications`](https://www.npmjs.com/package/expo-notifications) | Official Expo package; SDK 57 documentation recommends `~57.0.14`; maintained as part of the Expo SDK release line. | MIT; native client/config-plugin package. | Accept `~57.0.14`. |
+| [`expo-notifications`](https://www.npmjs.com/package/expo-notifications) | Official Expo package; SDK 57 documentation currently recommends `~57.0.14`; maintained as part of the Expo SDK release line. | MIT; native client/config-plugin package. | Accept `~57.0.10`, the newest patch eligible under the repository's 14-day npm release-age gate. |
 | Expo Push Service | Expo-operated HTTPS API; client obtains an Expo push token/native token, while Hermes sends server-side HTTPS requests to the Push API. | Hosted service/protocol, not an npm runtime dependency. | Accept the protocol; no client-side provider secret. |
 | Hermes outbound HTTP | Existing root dependency `httpx[socks]==0.28.1` in `pyproject.toml`; already used by Hermes authentication/network paths. | Existing Python dependency; no new package or lockfile change. | Reuse for the server extension after endpoint tests prove it is sufficient. |
 
@@ -58,7 +58,7 @@ deduplication key or server-owned retry record.
 
 ## Decision
 
-**Accept `expo-notifications~57.0.14`, the Expo Push HTTP protocol, and the
+**Accept `expo-notifications~57.0.10`, the Expo Push HTTP protocol, and the
 existing pinned Hermes `httpx` stack.** Add no provider SDK or new Python
 dependency in Stage 1. Keep push credentials server-side, enforce payload and
 batch limits, process receipts, and test remote delivery only in a native

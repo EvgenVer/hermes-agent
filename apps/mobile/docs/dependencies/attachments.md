@@ -9,7 +9,7 @@ arbitrary storage or bypass the server's type/size validation.
 | Package | Identity and compatibility | License/type | Decision |
 | --- | --- | --- | --- |
 | [`expo-document-picker`](https://www.npmjs.com/package/expo-document-picker) | Official Expo module; SDK 57 documentation recommends `~57.0.1`; uses the Android/iOS system document picker and has a config plugin. | MIT; native runtime package. | Accept `~57.0.1`. |
-| [`expo-image-picker`](https://www.npmjs.com/package/expo-image-picker) | Official Expo module; SDK 57 documentation recommends the `~57.0.13` patch line; provides library selection and optional camera access. | MIT; native runtime/config-plugin package. | Accept `~57.0.13`. |
+| [`expo-image-picker`](https://www.npmjs.com/package/expo-image-picker) | Official Expo module; SDK 57 documentation currently recommends the `~57.0.13` patch line; provides library selection and optional camera access. | MIT; native runtime/config-plugin package. | Accept `~57.0.9`, the newest patch eligible under the repository's 14-day npm release-age gate. |
 
 Primary references are [DocumentPicker](https://docs.expo.dev/versions/latest/sdk/document-picker/)
 and [ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/).
@@ -56,7 +56,7 @@ automatically without a server idempotency/reconciliation contract.
 
 ## Decision
 
-**Accept `expo-document-picker~57.0.1` and `expo-image-picker~57.0.13`.** Use
+**Accept `expo-document-picker~57.0.1` and `expo-image-picker~57.0.9`.** Use
 system/content URIs, explicit client preflight, server-side final validation,
 and least-privilege Android permissions. Do not add a filesystem browser,
 camera library, or broad storage permission package.

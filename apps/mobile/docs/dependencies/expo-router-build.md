@@ -9,7 +9,7 @@ scaffold.
 | Item | Evidence |
 | --- | --- |
 | Package | [`expo-router`](https://www.npmjs.com/package/expo-router), the official Expo file-based router. |
-| Recommended version | Expo's [SDK 57 Router documentation](https://docs.expo.dev/versions/latest/sdk/router/) recommends `~57.0.16`. |
+| Recommended version | Expo's [SDK 57 Router documentation](https://docs.expo.dev/versions/latest/sdk/router/) currently recommends `~57.0.16`; the repository selects `~57.0.12`, the newest patch eligible under its 14-day npm release-age gate. |
 | License/type | MIT; application runtime/config-plugin package. |
 | Maintenance | Official Expo package, released on the same SDK cadence as the selected stable runtime. The package must be installed through `npx expo install` so Expo checks the SDK-compatible patch. |
 | Native integration | The `expo-router` config plugin supplies the native entry-point configuration during prebuild; the default Expo Router template includes the plugin/entry setup. |
@@ -67,7 +67,7 @@ Android 7+ and uses compile/target SDK 36. Therefore:
 
 ## Decision
 
-**Accept `expo-router~57.0.16` and the Expo Router config-plugin/CNG path.** Use
+**Accept `expo-router~57.0.12` and the Expo Router config-plugin/CNG path.** Use
 Android API 31 as the minimum test baseline, compile/target 36 for the initial
 scaffold, and API 37 as an additional emulator check. No separate navigation
 library or native build service dependency is selected.
