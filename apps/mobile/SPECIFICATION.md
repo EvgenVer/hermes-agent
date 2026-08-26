@@ -76,9 +76,11 @@ Hermes server, starting with Android and the owner's home deployment.
 - The repository remains an npm workspace monorepo. The mobile package lives at
   apps/mobile and may depend on platform-neutral exports from apps/shared, but
   never on apps/desktop.
-- The current Hermes REST routes and /api/ws JSON-RPC gateway remain the canonical
-  integration surfaces. Server extensions are allowed where Desktop-only behavior
-  or mobile push delivery lacks a stable server contract.
+- The current Hermes REST routes and `/api/ws` JSON-RPC gateway remain the
+  canonical integration surfaces. Native WebSocket authentication uses the
+  existing authenticated `POST /api/auth/ws-ticket` flow. Server extensions are
+  allowed where Desktop-only behavior or mobile push delivery lacks a stable
+  server contract.
 - Tailscale is the initial network path. The app still accepts an arbitrary Server
   URL and requires Hermes authentication.
 - Tokens and credentials must be stored with Android Keystore-backed storage and

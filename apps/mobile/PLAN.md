@@ -92,9 +92,19 @@ stack if sufficient. Any new Python package requires separate vetting.
 ## Data / API / integrations
 
 - REST handles connection validation, profiles/configuration, routines, health,
-  logs, and restart operations.
-- /api/ws JSON-RPC handles session lifecycle, streaming, turn control, and
-  interactive requests.
+  logs, and restart operations through `hermes_cli/web_server.py` and the
+  extracted routers under `hermes_cli/web_routers/`.
+- `POST /api/auth/ws-ticket` (from `hermes_cli/dashboard_auth/routes.py`) mints
+  the existing short-lived ticket; `/api/ws` is mounted by
+  `hermes_cli/web_server.py` and handled by `tui_gateway/ws.py`.
+- `/api/ws` JSON-RPC handles session lifecycle, streaming, turn control, and
+  interactive requests. The reusable platform-neutral client is exported from
+  `apps/shared/src/json-rpc-gateway.ts` via `apps/shared/src/index.ts`.
+- Current profile/capability REST sources are
+  `hermes_cli/web_routers/profiles.py`, `sessions.py`, `skills.py`, `mcp.py`,
+  `cron.py`, and `tools.py`; current profile/session RPC handlers are in
+  `tui_gateway/methods_profiles.py`, `methods_session.py`,
+  `methods_prompt.py`, and `methods_tools.py`.
 - GET /api/mobile/capabilities is the proposed version/capability handshake.
 - /api/mobile/devices and /api/mobile/inbox are the proposed authenticated push
   registration and post-unlock event refresh surfaces.
@@ -117,8 +127,8 @@ Planned deterministic commands after scaffolding:
 - npm run lint --workspace apps/mobile
 - npm run test --workspace apps/mobile
 - npm run check --workspace apps/shared
-- pytest -q tests/dashboard/test_mobile_api.py
-- pytest -q tests/tui_gateway tests/dashboard -k "profile or session or mobile"
+- scripts/run_tests.sh tests/dashboard/test_mobile_api.py  # planned; current gap
+- scripts/run_tests.sh tests/tui_gateway tests/dashboard -k "profile or session or mobile"
 - npm run build:android --workspace apps/mobile
 - npm run test:e2e:android --workspace apps/mobile
 

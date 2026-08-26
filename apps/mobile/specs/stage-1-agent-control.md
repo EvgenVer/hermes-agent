@@ -125,17 +125,25 @@ Scenario: Hermes is fully stopped
 The implementation must inventory and test the exact current contracts before UI
 work. Stage 1 is expected to compose these server-owned surfaces:
 
-- GET /api/status and GET /api/health for identity, version, and health.
-- The existing dashboard authentication and short-lived /api/ws ticket flow.
-- /api/ws JSON-RPC for session lifecycle, streaming events, turn control, and
-  interactive requests.
+- GET /api/status and GET /api/health for identity, version, and health
+  (implemented in `hermes_cli/web_server.py`).
+- The existing dashboard authentication and short-lived WebSocket ticket flow:
+  `POST /api/auth/ws-ticket`, implemented in
+  `hermes_cli/dashboard_auth/routes.py` and
+  `hermes_cli/dashboard_auth/ws_tickets.py`; the ticket is presented on the
+  `/api/ws` upgrade.
+- `/api/ws` JSON-RPC for session lifecycle, streaming events, turn control, and
+  interactive requests. The WebSocket route is mounted by
+  `hermes_cli/web_server.py` and handled by `tui_gateway/ws.py`.
 - hermes_cli/web_routers/profiles.py for profile CRUD, clone, SOUL, metadata, and
   profile-scoped configuration.
 - hermes_cli/web_routers/sessions.py for history/search/resume behavior.
 - hermes_cli/web_routers/skills.py, mcp.py, and cron.py for profile capabilities
   and routines.
-- Existing model/config endpoints in hermes_cli/web_server.py.
-- POST /api/gateway/restart and a least-privilege server log/status surface.
+- Existing model/config endpoints in `hermes_cli/web_server.py`.
+- POST /api/gateway/restart and the existing GET /api/logs plus status/health
+  surfaces in `hermes_cli/web_server.py`. The mobile client must consume only
+  the fields accepted by the eventual least-privilege/redaction contract.
 
 The plan proposes a versioned, server-owned mobile extension only for gaps:
 
