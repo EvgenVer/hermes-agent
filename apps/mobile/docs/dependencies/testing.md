@@ -12,6 +12,8 @@ not available on this host, so native commands remain deferred.
 | [`jest-expo`](https://www.npmjs.com/package/jest-expo) | Official Expo Jest preset; current SDK 57-compatible release is `57.0.4`; maintained with the Expo SDK line and supports platform presets. | MIT; test preset. | Accept `~57.0.4`. |
 | [`@testing-library/react-native`](https://www.npmjs.com/package/@testing-library/react-native) | Maintained React Native Testing Library; current release is `14.0.1`; provides user-facing component queries and interaction helpers. Its peer contract requires `test-renderer`. | MIT; test library. | Accept exact `14.0.1`. |
 | [`@types/jest`](https://www.npmjs.com/package/@types/jest) | DefinitelyTyped declarations for Jest globals; `29.5.14` matches the selected Jest 29 runner and supplies the TypeScript declarations used by the test files. | MIT; dev-only type declarations. | Accept exact `29.5.14`; keep aligned with the Jest major. |
+| [`eslint`](https://www.npmjs.com/package/eslint) | Official ESLint runner; `9.39.5` is the Expo-compatible stable ESLint 9 patch selected for the mobile lint profile. | MIT; dev-only lint tool. | Accept exact `9.39.5`; Expo's lint command and `eslint-config-expo@57.0.1` accept ESLint `>=8.10`. |
+| [`eslint-config-expo`](https://www.npmjs.com/package/eslint-config-expo) | Official Expo flat config; `57.0.1` is the stable SDK 57 config release and supplies the Expo/React Native lint rules. | MIT; dev-only config/plugin bundle. | Accept `~57.0.1`; align with SDK 57 and ESLint `>=8.10`. |
 | [`test-renderer`](https://www.npmjs.com/package/test-renderer) | Community React 19 renderer package; current release is `1.2.0`, with React 19 peer support and an MIT license. RNTL 14 explicitly peers on the `test-renderer` package. | MIT; test-only compatibility peer. | Accept exact `1.2.0`; use only through RNTL and track its compatibility on React upgrades. |
 | [`jest`](https://www.npmjs.com/package/jest) | Official Jest package; `29.7.0` is the latest stable Jest 29 patch and matches the `jest-expo`/React Native preset dependency line. | MIT; test runner. | Accept exact `29.7.0`. |
 | [`@react-native/jest-preset`](https://www.npmjs.com/package/@react-native/jest-preset) | Official React Native preset; `0.86.2` matches the selected native runtime and is a required `jest-expo` peer. | MIT; test preset. | Accept exact `0.86.2`. |
@@ -23,6 +25,14 @@ and [SDK 57 reference](https://docs.expo.dev/versions/latest/) are the
 compatibility authorities. RNTL tests should assert accessible user-visible
 behavior rather than component implementation details. The deprecated renderer
 is an implementation peer of the test stack, not an application API.
+
+Expo Router's required direct peers are runtime dependencies, not test-only
+helpers: `expo-constants~57.0.10`, `expo-linking~57.0.5`, and
+`react-native-safe-area-context~5.6.2`. They are pinned to age-safe SDK 57
+versions; the mobile manifest's `expo.install.exclude` records this policy for
+Expo Doctor. React is pinned to `19.2.7` so the npm workspace resolves one
+React runtime instead of retaining the repository's desktop `19.2.7` copy and
+a second mobile `19.2.3` copy.
 
 ## Deterministic scripts and emulator coverage
 
@@ -65,8 +75,9 @@ and HM-034 record the actual commands and evidence.
 
 **Accept `jest-expo~57.0.4`, `@testing-library/react-native@14.0.1`,
 `@types/jest@29.5.14`,
+`eslint@9.39.5`, `eslint-config-expo~57.0.1`,
 `test-renderer@1.2.0`, `jest@29.7.0`, and
-`@react-native/jest-preset@0.86.2`. The deprecated
+`@react-native/jest-preset@0.86.2`, plus the direct Router peers listed above. The deprecated
 `react-test-renderer@19.2.3` remains only as `jest-expo`'s transitive
 implementation dependency and is not a direct dev dependency.
 Use Android SDK/emulator/`adb` smoke scripts instead of Detox for

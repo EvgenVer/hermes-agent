@@ -68,10 +68,11 @@ each evidence file records registry identity, compatibility, license/type,
 maintenance, risks, and the installation gate.
 
 - [Expo/React runtime](docs/dependencies/expo-runtime.md): `expo~57.0.12`,
-  `react@19.2.3`, `react-native@0.86.2`, `typescript@6.0.3`, and
+  `react@19.2.7`, `react-native@0.86.2`, `typescript@6.0.3`, and
   `@types/react@19.2.17`.
 - [Expo Router and Android build](docs/dependencies/expo-router-build.md):
-  `expo-router~57.0.12`; Android minimum API 31, initial compile/target API
+  `expo-router~57.0.12`, `expo-constants~57.0.10`, `expo-linking~57.0.5`,
+  and `react-native-safe-area-context~5.6.2`; Android minimum API 31, initial compile/target API
   36, and API 37 forward-compatibility validation.
 - [Hermes shared transport](docs/dependencies/hermes-shared.md): local
   `@hermes/shared`; reuse its reconnect/replay client after the recorded
@@ -91,6 +92,7 @@ maintenance, risks, and the installation gate.
   `expo-document-picker~57.0.1` and `expo-image-picker~57.0.9`.
 - [Testing](docs/dependencies/testing.md): `jest-expo~57.0.4`,
   `@testing-library/react-native@14.0.1`, `@types/jest@29.5.14`,
+  `eslint@9.39.5`, `eslint-config-expo~57.0.1`,
   `test-renderer@1.2.0`,
   `jest@29.7.0`, and `@react-native/jest-preset@0.86.2`; Android
   SDK/emulator/`adb` smoke harness, not Detox. `jest-expo`'s transitive

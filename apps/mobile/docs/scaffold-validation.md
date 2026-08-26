@@ -1,0 +1,47 @@
+# Mobile scaffold validation
+
+Checked on 2026-08-26 from the repository root with npm 11.17.0 and from
+`apps/mobile` for Expo commands. The validation covers the deterministic
+JavaScript scaffold and records the native-tooling blocker separately.
+
+## HM-033 quality gate
+
+| Check | Command | Result |
+| --- | --- | --- |
+| TypeScript | `npm run typecheck --workspace apps/mobile` | Pass; `tsc --noEmit` completed with exit 0. |
+| Expo lint | `npm run lint --workspace apps/mobile` | Pass; Expo flat lint completed with exit 0. |
+| Jest/RNTL | `npm run test --workspace apps/mobile -- --runInBand` | Pass; 1 suite and 1 test passed. |
+| Dependency tree | `npm ls --workspace apps/mobile react react-native expo-constants expo-linking react-native-safe-area-context --depth=0` | Pass; one React 19.2.7 and one React Native 0.86.2 runtime, with Router peers installed directly. |
+| Metro resolver | Load `metro.config.js` and resolve `react`, `react-native`, and `@hermes/shared` | Pass; shared resolves from `apps/shared`, runtime packages resolve from the repository workspace, and the configured watch scope is `apps/shared`. |
+| Expo Doctor | `npx expo-doctor@1.20.1` | Pass; 20/20 checks passed. The version is an official Expo MIT diagnostic package and was selected because it is admitted by the repository's npm release-age gate. |
+| Public config | `npx expo config --type public` | Pass; Android-only config reports `com.evgenver.hermesmobile`, min SDK 31, compile/target SDK 36, and typed routes. |
+| Diff hygiene | `git diff --check` | Pass after the validation changes. |
+
+The mobile manifest uses `expo.install.exclude` for the intentionally
+age-safe SDK 57/React patch pins. Expo Doctor therefore validates the project
+without suggesting releases that the repository's 14-day npm age gate refuses.
+The Metro config keeps an explicit mobile/root module search order and a
+narrow shared-package watch folder while leaving hierarchical lookup at Expo's
+default (`false`).
+
+## Security and release status
+
+`npm audit --workspace apps/mobile --json` reports 17 transitive findings:
+9 moderate, 8 high, 0 critical. The high findings are in the Expo/Metro build
+chain (`image-size`, Metro/config/transform packages, and related dependencies).
+The available fixed Metro chain is newer than the current release-age cutoff,
+so it was not pulled in with `audit fix`. This scaffold passes development
+quality checks but is not release-ready until the age gate admits the fixed
+chain and a fresh audit is clean.
+
+## HM-034 native smoke blocker
+
+The required Android 12 baseline check was not run on this host. Read-only
+tool discovery on 2026-08-26 found no `adb`, `emulator`, `java`, or `gradle`
+command and neither `ANDROID_HOME` nor `ANDROID_SDK_ROOT` is set. No emulator
+was available to install, launch, restart, or capture evidence for
+`com.evgenver.hermesmobile`.
+
+When Android tooling is provisioned, HM-034 must use a clean API 31 emulator
+and run the install/launch/restart flow described in
+`docs/dependencies/testing.md`; no signing material belongs in the repository.
