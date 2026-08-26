@@ -16,3 +16,10 @@
 - Findings: first Expo launch failed on missing `expo-router/_ctx-shared` due npm workspace hoisting; Gradle initially reported minSdk 24 despite public config 31. Both root causes are fixed and covered/documented. The final clean install/launch/restart evidence is not yet recorded.
 - Security: no secrets added; current audit is 9 moderate / 9 high / 0 critical, with `nanoid` via the existing Expo Router path plus the known Expo/Metro chain; no age-safe remediation was available.
 - Outcome: HM-034 is unblocked and remains in progress pending the second native build and Android shell smoke flow.
+
+## 2026-08-26 — complete Android API 31 scaffold smoke
+- Intent: finish HM-034 with a clean API 31 build/install/launch/restart check.
+- Risk class: high · approvals: same explicit user `go` for local native tooling and emulator actions; no outward operation.
+- Validation: `expo run:android --device hermes-api31` → `BUILD SUCCESSFUL` and APK installed; package `com.evgenver.hermesmobile`, activity `.MainActivity`, version `0.1.0` / code `1`, `minSdk=31`, `targetSdk=36`; shell screenshot verified before and after restart; force-stop removed the old PID and Metro deep-link relaunch produced a new PID and rendered shell.
+- Evidence: screenshots stored outside the repository in `%LOCALAPPDATA%\\HermesMobileToolchain\\evidence`; no signing secret or generated native tree is intended for commit.
+- Outcome: HM-034 complete. The existing 9 moderate / 9 high / 0 critical audit residual remains documented and release-blocking.

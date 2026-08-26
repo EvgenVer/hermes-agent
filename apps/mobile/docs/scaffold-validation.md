@@ -61,9 +61,24 @@ CNG plugin, and a fresh prebuild records `android.minSdkVersion=31`,
 `android.compileSdkVersion=36`, `android.targetSdkVersion=36`, and
 `android.buildToolsVersion=36.0.0`.
 
-The clean build/install/launch/restart flow and evidence capture are still
-pending. Until that flow passes, HM-034 remains in progress rather than
-complete.
+The clean API 31 flow is now complete. The second
+`npx expo run:android --device hermes-api31` run finished with `BUILD
+SUCCESSFUL`, installed `android/app/build/outputs/apk/debug/app-debug.apk`,
+and opened the app through the Metro development URL. The installed package
+reports:
 
-HM-034 must now run the clean API 31 install/launch/restart flow described in
-`docs/dependencies/testing.md`; no signing material belongs in the repository.
+- package/activity: `com.evgenver.hermesmobile/.MainActivity`;
+- version: `0.1.0` / versionCode `1`;
+- `minSdk=31`, `targetSdk=36`;
+- focused activity process present on `emulator-5554`.
+
+The screen showed `Hermes Mobile` and `The mobile shell is ready.` before the
+restart. The restart check force-stopped the exact package, confirmed its old
+process was gone, relaunched it with the same `hermesmobile://` Metro deep
+link, and confirmed a new process plus the same rendered shell. Visual adb
+captures are retained outside the repository at
+`%LOCALAPPDATA%\\HermesMobileToolchain\\evidence\\hm034-before-restart.png`
+and `hm034-after-restart.png`; no signing material was created or committed.
+
+HM-034 is complete. The remaining security-audit findings are documented
+above and are not waived by this smoke-test result.
