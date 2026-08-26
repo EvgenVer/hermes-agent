@@ -34,17 +34,21 @@ so it was not pulled in with `audit fix`. This scaffold passes development
 quality checks but is not release-ready until the age gate admits the fixed
 chain and a fresh audit is clean.
 
-## HM-034 native smoke blocker
+## HM-034 native smoke status
 
-The required Android 12 baseline check was not run on this host. Read-only
-tool discovery on 2026-08-26 found Android SDK platform-tools and emulator
-binaries under `C:\Users\Evgen\AppData\Local\Android\Sdk`, but no API 31
-system image or AVD. The SDK also has no `cmdline-tools`; Gradle is absent and
-the only discovered Java runtime is Java 8, which is not a supported native
-build runtime for this Expo/React Native stack. Neither `ANDROID_HOME` nor
-`ANDROID_SDK_ROOT` is set. No emulator was available to install, launch,
-restart, or capture evidence for `com.evgenver.hermesmobile`.
+The host toolchain blocker is cleared. The following components are now
+available in the user environment:
 
-When Android tooling is provisioned, HM-034 must use a clean API 31 emulator
-and run the install/launch/restart flow described in
+- Android SDK at `C:\Users\Evgen\AppData\Local\Android\Sdk`;
+- SDK Platform 31, Build Tools 36.0.0, Platform-Tools, and Emulator;
+- API 31 Google APIs x86_64 system image;
+- JDK 17 and Android SDK Command-line Tools;
+- clean AVD `hermes-api31`, visible as `emulator-5554` with Android 12 / SDK
+  31 and WHPX acceleration.
+
+The Expo build/install/launch/restart flow and evidence capture are still
+pending. Until that flow passes, HM-034 remains in progress rather than
+complete.
+
+HM-034 must now run the clean API 31 install/launch/restart flow described in
 `docs/dependencies/testing.md`; no signing material belongs in the repository.
