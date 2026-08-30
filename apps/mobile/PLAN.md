@@ -102,6 +102,12 @@ maintenance, risks, and the installation gate.
   SDK/emulator/`adb` smoke harness, not Detox. `jest-expo`'s transitive
   `react-test-renderer@19.2.3` is not a direct dependency.
 
+The screen-level design input is maintained in
+[`docs/mobile-screen-design-brief.md`](docs/mobile-screen-design-brief.md).
+It derives from the approved Stage 1 requirements and API matrix, and must be
+reviewed before connection/security UI implementation begins. It is not a new
+runtime dependency and does not change the server contract.
+
 No additional global-state or query-persistence package is selected initially.
 React Query, feature-local reducers/state machines, and small contexts should
 cover Stage 1; add a store only after a concrete cross-feature state problem is
@@ -152,6 +158,8 @@ Planned deterministic commands after scaffolding:
 
 Validation layers:
 
+- Design review against the screen inventory, global state matrix, cross-screen
+  flows, accessibility requirements, and API-matrix mapping before UI coding.
 - Pure unit tests for URL/auth redaction, parsers, reducers, reconnect, cache
   policy, and ambiguous mutations.
 - REST/JSON-RPC contract tests against Hermes fixtures.
@@ -184,6 +192,12 @@ tasks by themselves.
    Expo in apps/mobile without overwriting toolkit/docs, integrate npm workspace
    scripts, and prove an Android development build — verified by clean install,
    typecheck, lint, unit smoke test, and emulator launch.
+
+Before phase 3, the mobile screen design brief is the required UX gate: the
+connection/security, agent administration, chat, operations, and settings
+states must have reviewed layouts and navigation before implementation tasks
+are expanded.
+
 3. **Connection and security foundation** — implement URL validation,
    authentication/ticket flow, capability handshake, SecureStore, biometric gate,
    REST/JSON-RPC adapters, lifecycle, reconnect, and redacted SQLite cache —

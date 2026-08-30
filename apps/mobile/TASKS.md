@@ -51,14 +51,18 @@
 - [x] HM-033 Run the clean mobile scaffold quality gate — files: apps/mobile/docs/scaffold-validation.md · verify: workspace typecheck, lint, unit test, npx expo-doctor, npx expo config --type public, and git diff --check all pass with commands and results recorded · dep: HM-032 · parallel: no · result: typecheck, Expo lint, Jest (1 suite/1 test), Expo Doctor 1.20.1 (20/20), mobile public config, Metro workspace resolver, npm dependency tree, and git diff --check passed; age-safe patch pins are documented and excluded from Expo Doctor's upgrade suggestion; security audit remains 9 moderate/8 high with no critical
 - [x] HM-034 Prove the scaffold on the Android 12 baseline emulator — files: apps/mobile/docs/scaffold-validation.md · verify: a clean API 31 emulator installs, launches, renders the shell, survives one restart, and records build/app identifiers plus evidence; no signing secret is committed · dep: HM-033 · parallel: no · result: `hermes-api31` boots Android 12/API 31; `expo run:android --device hermes-api31` builds and installs `com.evgenver.hermesmobile` with version 0.1.0, versionCode 1, minSdk 31, and targetSdk 36; the shell renders before and after a force-stop/Metro deep-link relaunch; screenshots and adb evidence are stored outside the repository under the local toolchain evidence directory
 
+### Wave 5 — define the mobile visual interface contract
+
+- [x] HM-035 Define the screen design input brief — files: apps/mobile/docs/mobile-screen-design-brief.md, apps/mobile/PLAN.md, apps/mobile/TASKS.md · verify: the brief covers Android navigation, P0/P1 screen inventory, loading/error/offline/locked/stale/ambiguous states, security and accessibility rules, critical prototypes, and API-matrix mapping without adding new runtime behavior · dep: HM-013, HM-034 · parallel: no · result: reusable Stitch/Claude Design input brief created; the next connection/security and UI implementation waves require review of this brief
+
 ## Blocked
 
 - [ ] HM-B001 Push synchronized main to origin — blocker: HM-003 completion plus a separate Vibe Diff review and explicit approval for the outward Git operation
-- [ ] HM-B002 Expand connection and credential security into atomic implementation tasks — blocker: HM-013 and HM-034 must establish exact contracts and scaffold file paths; expansion reopens the planning gate
+- [ ] HM-B002 Expand connection and credential security into atomic implementation tasks — blocker: HM-013, HM-034, and HM-035 are complete; implementation expansion still requires explicit planning approval
 - [ ] HM-B003 Expand required Hermes server contract gaps into atomic implementation tasks — blocker: HM-013 must classify concrete extend/new gaps; expansion reopens the planning gate
-- [ ] HM-B004 Expand agent administration into atomic implementation tasks — blocker: HM-013 and HM-034 must establish exact contracts and scaffold file paths; expansion reopens the planning gate
-- [ ] HM-B005 Expand agent interaction into atomic implementation tasks — blocker: HM-013 and HM-034 must establish exact contracts and scaffold file paths; expansion reopens the planning gate
-- [ ] HM-B006 Expand operations and background notifications into atomic implementation tasks — blocker: HM-013, HM-019, and HM-034 must establish contracts, delivery choices, and scaffold file paths; expansion reopens the planning gate
+- [ ] HM-B004 Expand agent administration into atomic implementation tasks — blocker: HM-013, HM-034, and HM-035 are complete; implementation expansion still requires explicit planning approval
+- [ ] HM-B005 Expand agent interaction into atomic implementation tasks — blocker: HM-013, HM-034, and HM-035 are complete; implementation expansion still requires explicit planning approval
+- [ ] HM-B006 Expand operations and background notifications into atomic implementation tasks — blocker: HM-013, HM-019, HM-034, and HM-035 are complete; implementation expansion still requires explicit planning approval
 - [ ] HM-B007 Expand integration, security, Android acceptance, and release hardening into atomic tasks — blocker: Stage 1 feature implementation must expose exact integration paths and risks; expansion reopens the planning gate
 - [ ] HM-B008 Publish a GitHub Release — blocker: signed release acceptance plus separate explicit outward-facing authorization
 
