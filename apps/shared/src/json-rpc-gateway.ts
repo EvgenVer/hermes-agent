@@ -65,7 +65,69 @@ export class JsonRpcGatewayError extends Error {
   }
 }
 
-export type WebSocketLike = WebSocket
+export interface GatewaySocketMessageEvent {
+  data: unknown
+}
+
+export interface GatewaySocketCloseEvent {
+  code?: number
+  reason?: string
+  wasClean?: boolean
+}
+
+interface GatewaySocketEventOptions {
+  capture?: boolean
+  once?: boolean
+  passive?: boolean
+}
+
+/** The numeric ready-state value shared by browser and native WebSockets. */
+export const GATEWAY_SOCKET_OPEN = 1
+
+/**
+ * Minimal socket contract used by the gateway client.
+ *
+ * Keep this structural so React Native's global WebSocket and browser
+ * WebSocket implementations are both assignable without making the shared
+ * package's public types depend on DOM WebSocket declarations.
+ */
+export interface WebSocketLike {
+  readonly readyState: number
+  addEventListener(
+    type: 'message',
+    listener: (event: GatewaySocketMessageEvent) => void,
+    options?: boolean | GatewaySocketEventOptions
+  ): void
+  addEventListener(
+    type: 'close',
+    listener: (event: GatewaySocketCloseEvent) => void,
+    options?: boolean | GatewaySocketEventOptions
+  ): void
+  addEventListener(
+    type: 'open' | 'error',
+    listener: () => void,
+    options?: boolean | GatewaySocketEventOptions
+  ): void
+  removeEventListener(
+    type: 'message',
+    listener: (event: GatewaySocketMessageEvent) => void,
+    options?: boolean | GatewaySocketEventOptions
+  ): void
+  removeEventListener(
+    type: 'close',
+    listener: (event: GatewaySocketCloseEvent) => void,
+    options?: boolean | GatewaySocketEventOptions
+  ): void
+  removeEventListener(
+    type: 'open' | 'error',
+    listener: () => void,
+    options?: boolean | GatewaySocketEventOptions
+  ): void
+  send(data: string): void
+  close(): void
+}
+
+const createDefaultSocket = (url: string): WebSocketLike => new WebSocket(url) as unknown as WebSocketLike
 
 type PendingCall = {
   reject: (error: Error) => void
@@ -81,7 +143,7 @@ export interface GatewayClientOptions {
   heartbeatDeadlineMs?: number
   heartbeatIntervalMs?: number
   /** Return true to intercept the default closed-state transition. */
-  onSocketClose?: (event: CloseEvent) => boolean | void
+  onSocketClose?: (event: GatewaySocketCloseEvent) => boolean | void
   requestIdPrefix?: string
   requestTimeoutMs?: number
   socketFactory?: (url: string) => WebSocketLike
@@ -178,13 +240,13 @@ export class JsonRpcGatewayClient {
       throw invalidUrl()
     }
 
-    if (this.socket?.readyState === WebSocket.OPEN || this.state === 'connecting') {
+    if (this.socket?.readyState === GATEWAY_SOCKET_OPEN || this.state === 'connecting') {
       return
     }
 
     this.setState('connecting')
 
-    const socket = this.options.socketFactory?.(wsUrl) ?? new WebSocket(wsUrl)
+    const socket = this.options.socketFactory?.(wsUrl) ?? createDefaultSocket(wsUrl)
     this.socket = socket
     this.stopHeartbeat()
 
@@ -349,7 +411,7 @@ export class JsonRpcGatewayClient {
   ): Promise<T> {
     const socket = this.socket
 
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
+    if (!socket || socket.readyState !== GATEWAY_SOCKET_OPEN) {
       return Promise.reject(new Error(this.options.notConnectedErrorMessage))
     }
 
@@ -660,7 +722,7 @@ export class JsonRpcGatewayClient {
     }
 
     this.heartbeatTimer = setInterval(() => {
-      if (this.socket !== socket || socket.readyState !== WebSocket.OPEN) {
+      if (this.socket !== socket || socket.readyState !== GATEWAY_SOCKET_OPEN) {
         return
       }
 
