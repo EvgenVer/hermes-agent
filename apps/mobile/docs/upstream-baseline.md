@@ -45,6 +45,43 @@
 | New session controls | [methods_session_control.py](https://github.com/NousResearch/hermes-agent/blob/v2026.9.7/tui_gateway/methods_session_control.py) offers goals/loops/heartbeat controls; dedicated mobile panels remain outside Stage 1. |
 | Mobile gaps | No ready mobile capability/device/inbox routes were found in the reviewed core REST/RPC surfaces. Keep these classified as gaps; confirm after merge before designing an extension. |
 
+## Merged-revision revalidation — 2026-09-08
+
+HM-039 revalidated the matrix against merge
+`ddde04baf8da57b20fd184eda8e29d5424f0fd0a`, not only against the release tag:
+
+- Twenty-eight referenced source/test paths resolve on the merged checkout.
+  The checked ownership is `hermes_cli/dashboard_auth/` for native auth and WS
+  tickets, `hermes_cli/web_routers/chat_ws.py` for the WS mount,
+  `hermes_cli/web_routers/status.py` for health/status/logs,
+  `hermes_cli/web_routers/actions.py` for restart, `hermes_cli/web_routers/cron.py`
+  plus `web_models.py` for routines, and `tui_gateway/` for session, interactive
+  request, MCP, and attachment handlers.
+- Source review confirms batch clarification and expiry/password/value reply
+  handling; profile-scoped partial routine updates validate the effective merged
+  job; logs are a bounded tail in the active `HERMES_HOME` with no profile query;
+  restart is detached and coalesced while recovery is checked from gateway
+  state; image/PDF limits are 25 MiB / 50 MiB and 25 pages. Generic
+  `file.attach` has no explicit byte cap and remains a server decision.
+- The exact canonical Bot Chat lookup remains name-based and hidden-row aware,
+  with compression-tip resolution. A complete server-owned absent-row
+  create/adopt operation is still a gap; no mobile capability, device, or inbox
+  route exists on the merged revision. The planned
+  `tests/dashboard/test_mobile_api.py` file is also absent.
+- The repository wrapper was attempted for the targeted topology tests using an
+  existing Python 3.13 interpreter via `HERMES_PYTHON` (no packages were
+  installed). It completed with 22 files processed: 79 tests passed, 21 failed,
+  and 15 files had collection/import errors. The failures and collection errors
+  are attributable to missing environment packages (`rich`, `starlette`,
+  `fastapi`, `uvicorn`, `python-dotenv`, and `concurrent_log_handler`); no
+  source-level regression was isolated. Passing evidence includes gateway
+  runtime health, status, clarify gateway, and MCP OAuth cancellation/client
+  callback suites. HM-039 stays open until the wrapper can run in a complete
+  Hermes development environment.
+- No Android device/emulator run and no live home-server compatibility run are
+  claimed. The mobile proof recipe remains bounded and requires manual Android
+  and Tailscale validation in the later acceptance tasks.
+
 ## Historical synchronization — 2026-08-26
 
 Checked from the then-clean `feat/mobile-app` worktree.
