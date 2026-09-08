@@ -90,15 +90,23 @@ Hermes server, starting with Android and the owner's home deployment.
   restarting service.
 - No production dependency may be installed until it passes the toolkit's
   dependency-vetting gate.
-- The fork must be synchronized with upstream before implementation begins and
-  regularly throughout development.
+- The fork and the mobile API inventory must be refreshed at each upstream release
+  review, before an integration wave after upstream changes, and before a mobile
+  release. Record the reviewed upstream tag/commit separately from the merged and
+  device-tested baselines; a newer version number alone never proves compatibility.
+- Mobile session capabilities must reflect the actual connected client. Desktop
+  browser, pane, and renderer actions must not be advertised to a mobile session
+  that cannot service them; establish the surface before conversation creation.
+- Profile configuration changes preserve the running conversation's prompt cache.
+  The UI distinguishes configuration saved from configuration active in that chat.
 
 ## Assumptions
 
 - The Android device and home computer can remain members of the same Tailscale
   network.
-- The current Hermes authentication and short-lived WebSocket ticket flow can be
-  reused by a native client.
+- The authenticated WebSocket ticket flow is reusable after sign-in. Android
+  sign-in and refresh still need device proof: the current Desktop native login
+  accepts loopback HTTP redirects, not an arbitrary mobile app deep link.
 - Existing Hermes REST and JSON-RPC contracts cover most Stage 1 operations; any
   gaps can be added to server-owned modules without importing Desktop UI logic.
 - The current server can expose a small capability manifest so the client can
@@ -126,8 +134,12 @@ Hermes server, starting with Android and the owner's home deployment.
   refreshes authoritative server state, and asks the owner before another attempt.
 - Offline screens are visibly stale and read-only, and no secret is present in the
   offline cache or diagnostic logs.
-- A signed release APK installs on Android 12 (API 31) and passes
-  the Stage 1 physical-device acceptance checklist.
+- A signed release APK installs on Android 12 (API 31), launches without Metro,
+  and passes the Stage 1 physical-device acceptance checklist. Debug/emulator
+  shell success is not release acceptance.
+- Protected resume, rejected/expired interactive replies, profile switching,
+  server replacement, and duplicate or stale notification opens cannot expose
+  another profile's data or submit an action to an outdated target.
 
 ## Risks
 
@@ -145,12 +157,19 @@ Hermes server, starting with Android and the owner's home deployment.
 - Server logs, secret-entry flows, and restart behavior may require narrower
   mobile-specific contracts to avoid overexposing administrative data.
 
-## Open questions
+## Accepted decisions and remaining integration questions
 
-- **Application ID and signing identity:** proposed personal release ID is
-  com.evgenver.hermesmobile. An upstream-owned flavor/ID can be introduced if the
-  project is accepted; signing identities must never be committed.
-- **Push provider:** proposed Stage 1 provider is Expo Push Service behind a
-  server-side provider interface. Payloads contain only an opaque event reference
-  and generic category; the app unlocks and fetches details from Hermes. A direct
-  FCM/APNs or self-hosted provider can replace it later.
+- **Application ID:** com.evgenver.hermesmobile is already approved. Signing
+  material remains external to the repository; release signing is still pending.
+- **Push provider:** Expo Push Service is already approved, using existing Hermes
+  HTTP support and opaque generic payloads. Keep the provider boundary small;
+  implementing alternative delivery providers is outside Stage 1.
+- **Android authentication:** prove a supported sign-in/refresh/return path on the
+  target home deployment before treating native login as mobile-ready. Do not
+  invent an Operator ID, passkey protocol, or unrestricted callback redirect.
+- **Mobile contract closure:** confirm surface negotiation, first canonical chat
+  creation/adoption, MCP OAuth return, generic attachment limits, safe log reads,
+  and device-registration reconciliation against the synchronized server.
+- The 2026-09-08 revision incorporates the owner's approved release/design
+  assessment. It retains Stage 1 scope; goals/loops/heartbeat management, browser
+  annotations, and full orchestration remain later-stage work.
