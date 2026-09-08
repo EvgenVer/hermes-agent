@@ -1,6 +1,6 @@
 # Credential storage and local authentication
 
-Checked on 2026-08-26. This bundle covers the local boundary around server
+Checked on 2026-09-08. This bundle covers the local boundary around server
 credentials and the optional biometric app lock. It does not change Hermes
 server authentication or put secrets into the mobile SQLite cache.
 
@@ -37,6 +37,34 @@ SecureStore shared-preferences path; any custom backup configuration must
 preserve that exclusion. HM-027/HM-033 must inspect the generated config if a
 custom backup rule is introduced.
 
+## HM-042 native CNG revalidation — 2026-09-08
+
+The mobile config now explicitly applies `expo-secure-store`, disables the
+unused image-picker camera and microphone permission prompts, blocks
+`RECORD_AUDIO` and `SYSTEM_ALERT_WINDOW`, and keeps the accepted Android
+31/36 min/compile/target SDK settings in `expo-build-properties`. A clean
+`expo prebuild --no-install --clean --platform android` in a disposable copy
+reproduced those settings without changing the repository's existing
+generated `android/` tree. The existing tree was then refreshed with
+`--no-install --no-clean`; it remains local generated state and is not a
+committed source of native behavior.
+
+The generated main manifest contains explicit removal markers for camera,
+microphone, and overlay access, plus the expected network, pre-API-33 storage,
+biometric, and notification-related declarations. The SecureStore plugin also
+generates `android:fullBackupContent` and `android:dataExtractionRules`; both
+rule sets include ordinary shared preferences while excluding the
+`SecureStore` shared-preferences file. This is the required backup boundary:
+credentials remain Keystore/SecureStore-owned and are not restored through
+cloud backup or device transfer.
+
+The complete release-variant manifest merge remains pending because the local
+offline Gradle cache does not contain the React Native and Hermes release AARs.
+The CNG source manifest and cached debug/main merge are evidence for the
+configuration, not release acceptance. Do not claim a signed release or
+physical-device permission result until the release merge is rerun with those
+artifacts available.
+
 ## Failure and privacy rules
 
 - `isAvailableAsync`, `isEnrolledAsync`, and authentication errors are local
@@ -57,4 +85,8 @@ custom backup rule is introduced.
 above. Use SecureStore for small credential material and LocalAuthentication as
 an optional local gate. Test enrollment changes, cancellation, lockout, backup
 rules, and re-authentication on native Android API 31 and API 37 builds. No
-additional encryption or keychain package is selected in Stage 1.
+additional encryption or keychain package is selected in Stage 1. Remote push
+still requires a native Android build with the Android application registered
+in the chosen Expo/Firebase/FCM project; provider credentials and service
+configuration files stay outside the repository and are never bundled by the
+client.

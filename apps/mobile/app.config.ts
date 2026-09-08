@@ -18,6 +18,7 @@ const android: MobileAndroidConfig = {
   minSdkVersion: androidBuildProperties.minSdkVersion,
   compileSdkVersion: androidBuildProperties.compileSdkVersion,
   targetSdkVersion: androidBuildProperties.targetSdkVersion,
+  blockedPermissions: ['android.permission.RECORD_AUDIO', 'android.permission.SYSTEM_ALERT_WINDOW'],
 };
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -37,6 +38,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         android: androidBuildProperties,
       },
     ],
+    [
+      'expo-image-picker',
+      {
+        cameraPermission: false,
+        microphonePermission: false,
+      },
+    ],
+    'expo-notifications',
+    'expo-secure-store',
     'expo-router',
   ],
   experiments: {

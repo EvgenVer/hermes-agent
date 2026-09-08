@@ -49,6 +49,40 @@ remediation is an official compatible Expo/Router/Metro/config-plugin chain
 update; direct overrides were not applied. The high findings remain a release
 blocker and are delegated to HM-B009 for separately authorized remediation.
 
+## HM-042 native configuration revalidation — 2026-09-08
+
+The pre-existing `apps/mobile/android/` directory was inventoried before
+classification. `git ls-files` reports no tracked files under that directory;
+it is generated local state and remains uncommitted. A disposable copy of the
+mobile config passed clean CNG with `--no-install --clean --platform android`.
+The existing tree was refreshed separately with `--no-install --no-clean`, so
+no generated source or local signing material was deleted or committed.
+
+The clean CNG result reproduces Android min SDK 31, compile SDK 36, target SDK
+36, and build tools 36.0.0. It emits removal markers for the unused camera,
+microphone, and overlay permissions. The expected active permission families
+are network access; pre-API-33 external-storage compatibility for the picker;
+biometric access for LocalAuthentication; and vibration/FCM/notification
+permissions from the notification stack. `expo-secure-store` emits both
+Android backup attributes, and its rules exclude the SecureStore shared
+preferences file from cloud backup and device transfer.
+
+The release-variant merge could not be completed in the current offline
+environment: the local Gradle cache lacks `react-android:0.86.2` and
+`hermes-android:250829098.0.16` release AARs. The available cached debug/main
+merge and the CNG output are recorded as configuration evidence only; HM-042
+stays open until the release merge is rerun with those artifacts available and
+confirms that no microphone or overlay permission survives. No signing key,
+keystore, or provider credential is tracked; mobile `.gitignore` now excludes
+local `*.keystore` and `*.jks` files.
+
+Remote Android push additionally needs native project configuration: register
+`com.evgenver.hermesmobile` in the selected Expo/Firebase/FCM project and
+provide the build-time project linkage/credentials through the approved local
+or EAS build secret store. Those files and credentials must stay out of git.
+The client-only `expo-notifications` package does not prove remote delivery;
+API 31/API 37 native and provider delivery checks remain acceptance work.
+
 ## Historical security and release status — 2026-08-26
 
 `npm audit --workspace apps/mobile --json` reports 18 transitive findings:

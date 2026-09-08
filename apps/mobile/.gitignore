@@ -5,6 +5,8 @@
 *.pem
 *.key
 *.p12
+*.keystore
+*.jks
 id_rsa*
 .ssh/
 secrets/

@@ -30,3 +30,11 @@
 - Validation: parsed npm lockfile v3; walked the mobile production dependency graph (664 reachable nodes); checked 27 direct mobile entries; confirmed one React `19.2.7` and one React Native `0.86.2`; compared installed package-lock metadata; queried npm bulk advisories; `pnpm audit` correctly refused because no `pnpm-lock.yaml` exists.
 - Findings: 9 advisory/path matches affect mobile production (6 high, 3 moderate, 0 critical) through `nanoid`, `@xmldom/xmldom`, `image-size`, `decode-uri-component`, and `uuid`; nested `nanoid@3.3.17` copies remain despite the existing override; the only installed-vs-lock mismatch is unrelated `apps/desktop` `0.17.0` versus `0.17.2`.
 - Outcome: HM-040 complete. High findings remain a release blocker; no override, install, lockfile rewrite, or audit-fix was performed. HM-B009 owns separately authorized remediation and fresh native validation.
+
+## 2026-09-08 — revalidate Stage 1 native configuration
+- Intent: make the accepted mobile Android configuration reproducible without treating generated native state or debug output as release acceptance.
+- Risk class: high local native/security configuration; authorization: explicit user request to execute possible TASKS work; no package installation, secret access, device write, or outward operation.
+- Changed files: `apps/mobile/app.config.ts`, mobile `.gitignore`, credential-security/scaffold validation docs, and this run log. Existing untracked `android/` and design assets were preserved and not committed.
+- Validation: disposable clean CNG reproduced Android min/compile/target SDK 31/36/36 and build tools 36.0.0; existing tree refreshed with `--no-clean`; cached debug/main manifest merge passed; SecureStore backup rules were inspected for cloud/device-transfer exclusion; offline release merge was attempted.
+- Findings: config now disables unused image-picker camera/microphone prompts, blocks microphone/overlay permissions, applies SecureStore backup rules, and ignores local signing files. Release merge remains blocked because React Native and Hermes release AARs are absent from the offline Gradle cache; no release acceptance is claimed.
+- Outcome: HM-042 remains open with its environment blocker documented. No signing material, provider credential, install, or dependency remediation was added.
