@@ -1,8 +1,10 @@
 # Mobile dependency decisions
 
-Vetted on 2026-08-26 for the Expo SDK 57 Stage 1 scaffold. These decisions
-record registry identity, official compatibility, maintenance/license review,
-and the accepted version policy. The initial HM-032 install attempt confirmed
+Vetted on 2026-08-26 for the Expo SDK 57 Stage 1 scaffold and revalidated on
+2026-09-08 against merged revision
+`ddde04baf8da57b20fd184eda8e29d5424f0fd0a`. These decisions record registry
+identity, official compatibility, maintenance/license review, and the accepted
+version policy. The initial HM-032 install attempt confirmed
 that the repository's npm `min-release-age=14` gate rejects the newest SDK 57
 patches published on 2026-08-24. The final pins below use the newest eligible
 patch on the same stable SDK line; the gate was not bypassed.
@@ -56,6 +58,41 @@ its nested `@expo/router-server` must resolve the mobile app's Router package
 from the root during typed-route generation. The mobile workspace retains its
 direct runtime dependency; the root entry only makes that existing package
 available to the hoisted CLI.
+
+## HM-040 merged dependency/security baseline
+
+The following is the current read-only inventory for the merged lockfile, not a
+new install or remediation. The npm CLI is unavailable in the current host, so
+the check parsed the npm v3 lockfile, inspected the installed package-lock
+metadata, and queried the public npm bulk advisory endpoint with package names
+and locked versions only. No package contents, credentials, or environment
+secrets were sent.
+
+| Check | Result |
+| --- | --- |
+| Lockfile | npm `lockfileVersion: 3`; 2,375 package entries in `package-lock.json`. |
+| Mobile direct graph | 27 direct entries (17 production, 10 development); all resolve from the lockfile. |
+| Runtime deduplication | One locked React `19.2.7`, one React Native `0.86.2`, one Expo `57.0.12`, and one Expo Router `57.0.12`; `@hermes/shared` remains a first-party workspace link. |
+| Installed metadata | `node_modules/.package-lock.json` has 2,323 entries and matches every checked mobile runtime version. The only version mismatch is unrelated `apps/desktop` (`0.17.0` installed versus `0.17.2` in the root lockfile); refresh the full workspace install before relying on all-workspace checks. |
+| Current mobile production advisory scope | 9 affected advisory/path matches: 6 high, 3 moderate, 0 critical; 8 unique advisory IDs. This is the current merged-graph result, not the historical HM-032 count. |
+
+### Affected mobile production chains
+
+| Locked package | Severity / advisory | Reachable chain | Compatible remediation status |
+| --- | --- | --- | --- |
+| `nanoid@3.3.17` | High · [GHSA-2v37-7h3g-55p8](https://github.com/advisories/GHSA-2v37-7h3g-55p8) | `expo-router@57.0.12` and `postcss@8.5.23` | `nanoid >=3.3.18` is the advisory boundary, but the current nested copies remain `3.3.17`; do not add another override without resolver/install validation. |
+| `@xmldom/xmldom@0.8.13` | High/moderate · [GHSA-w2rr-34g9-rvrj](https://github.com/advisories/GHSA-w2rr-34g9-rvrj), [GHSA-4w3w-2rp5-g8jm](https://github.com/advisories/GHSA-4w3w-2rp5-g8jm), [GHSA-6gmq-8vp8-gcm6](https://github.com/advisories/GHSA-6gmq-8vp8-gcm6) | `@expo/plist@0.8.1` → `@expo/cli@57.0.14` → `expo@57.0.12` | Requires a compatible official Expo CLI/SDK patch-chain update; no direct override is accepted in this task. |
+| `image-size@1.2.1` | High · [GHSA-w3rx-r6r6-pgpr](https://github.com/advisories/GHSA-w3rx-r6r6-pgpr), [GHSA-5p2g-fcmc-qvqq](https://github.com/advisories/GHSA-5p2g-fcmc-qvqq) | `metro@0.84.4` → `@expo/metro@56.0.0` → `expo@57.0.12` | Requires the compatible Expo/Metro build-chain remediation; do not force a Metro/image-size override without dependency vetting and native checks. |
+| `decode-uri-component@0.2.2` | Moderate · [GHSA-vcc3-ghjq-m6fr](https://github.com/advisories/GHSA-vcc3-ghjq-m6fr) | `query-string@7.1.3` → `expo-router@57.0.12` | Requires the compatible Router patch chain; no direct override is accepted in this task. |
+| `uuid@7.0.3` | Moderate · [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq) | `xcode@3.0.1` → `@expo/config-plugins@57.0.7` → `expo@57.0.12` | Requires the compatible Expo config-plugin patch chain; no direct override is accepted in this task. |
+
+The historical HM-032 report of 18 transitive findings (9 moderate and 9
+high) remains below as historical evidence only. HM-040 establishes a current
+release blocker: the mobile graph still includes high-severity build/runtime
+advisories, and the installed full-workspace metadata is not fully synchronized
+with the lockfile. Applying a remediation belongs to HM-B009 and requires
+concrete compatible versions, dependency vetting, install/lockfile
+authorization, and a fresh Expo/native validation pass.
 
 ## Rejected or deferred alternatives
 

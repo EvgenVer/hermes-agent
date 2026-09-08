@@ -23,3 +23,10 @@
 - Validation: `expo run:android --device hermes-api31` → `BUILD SUCCESSFUL` and APK installed; package `com.evgenver.hermesmobile`, activity `.MainActivity`, version `0.1.0` / code `1`, `minSdk=31`, `targetSdk=36`; shell screenshot verified before and after restart; force-stop removed the old PID and Metro deep-link relaunch produced a new PID and rendered shell.
 - Evidence: screenshots stored outside the repository in `%LOCALAPPDATA%\\HermesMobileToolchain\\evidence`; no signing secret or generated native tree is intended for commit.
 - Outcome: HM-034 complete. The existing 9 moderate / 9 high / 0 critical audit residual remains documented and release-blocking.
+
+## 2026-09-08 — revalidate merged mobile dependency/security baseline
+- Intent: complete HM-040 against merged revision `ddde04baf8da57b20fd184eda8e29d5424f0fd0a` without installing packages or applying audit fixes.
+- Risk class: low read-only audit; advisory lookup sent only package names and locked versions; no secrets or package contents were sent.
+- Validation: parsed npm lockfile v3; walked the mobile production dependency graph (664 reachable nodes); checked 27 direct mobile entries; confirmed one React `19.2.7` and one React Native `0.86.2`; compared installed package-lock metadata; queried npm bulk advisories; `pnpm audit` correctly refused because no `pnpm-lock.yaml` exists.
+- Findings: 9 advisory/path matches affect mobile production (6 high, 3 moderate, 0 critical) through `nanoid`, `@xmldom/xmldom`, `image-size`, `decode-uri-component`, and `uuid`; nested `nanoid@3.3.17` copies remain despite the existing override; the only installed-vs-lock mismatch is unrelated `apps/desktop` `0.17.0` versus `0.17.2`.
+- Outcome: HM-040 complete. High findings remain a release blocker; no override, install, lockfile rewrite, or audit-fix was performed. HM-B009 owns separately authorized remediation and fresh native validation.

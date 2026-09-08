@@ -1,8 +1,10 @@
 # Mobile scaffold validation
 
 Checked on 2026-08-26 from the repository root with npm 11.17.0 and from
-`apps/mobile` for Expo commands. The validation covers the deterministic
-JavaScript scaffold and records the native-tooling blocker separately.
+`apps/mobile` for Expo commands. The historical validation below covers the
+deterministic JavaScript scaffold. The merged dependency/security revalidation
+is recorded separately below and uses revision
+`ddde04baf8da57b20fd184eda8e29d5424f0fd0a`.
 
 ## HM-033 quality gate
 
@@ -24,7 +26,30 @@ The Metro config keeps an explicit mobile/root module search order and a
 narrow shared-package watch folder while leaving hierarchical lookup at Expo's
 default (`false`).
 
-## Security and release status
+## HM-040 merged dependency/security revalidation — 2026-09-08
+
+The current npm v3 lockfile was parsed on merge
+`ddde04baf8da57b20fd184eda8e29d5424f0fd0a`. The npm CLI is unavailable, so no
+install or `audit fix` was attempted. A read-only npm bulk advisory query using
+locked package names and versions found 9 advisory/path matches in the mobile
+production graph: 6 high, 3 moderate, and 0 critical. The affected chains are:
+
+- `nanoid@3.3.17` through `expo-router@57.0.12` and `postcss@8.5.23`;
+- `@xmldom/xmldom@0.8.13` through `@expo/plist` / `@expo/cli` / Expo;
+- `image-size@1.2.1` through Metro / `@expo/metro` / Expo;
+- `decode-uri-component@0.2.2` through `query-string` / Expo Router; and
+- `uuid@7.0.3` through `xcode` / Expo config plugins.
+
+The mobile lock graph resolves 17 production and 10 development direct entries,
+with one React `19.2.7`, one React Native `0.86.2`, one Expo `57.0.12`, and one
+Expo Router `57.0.12`. Installed metadata matches the checked mobile runtime
+versions; the sole detected installed-vs-lock mismatch is unrelated
+`apps/desktop` (`0.17.0` installed versus `0.17.2` locked). The available
+remediation is an official compatible Expo/Router/Metro/config-plugin chain
+update; direct overrides were not applied. The high findings remain a release
+blocker and are delegated to HM-B009 for separately authorized remediation.
+
+## Historical security and release status — 2026-08-26
 
 `npm audit --workspace apps/mobile --json` reports 18 transitive findings:
 9 moderate, 9 high, 0 critical. The high findings include `nanoid` through the
