@@ -45,7 +45,7 @@
 | New session controls | [methods_session_control.py](https://github.com/NousResearch/hermes-agent/blob/v2026.9.7/tui_gateway/methods_session_control.py) offers goals/loops/heartbeat controls; dedicated mobile panels remain outside Stage 1. |
 | Mobile gaps | No ready mobile capability/device/inbox routes were found in the reviewed core REST/RPC surfaces. Keep these classified as gaps; confirm after merge before designing an extension. |
 
-## Merged-revision revalidation — 2026-09-08
+## Merged-revision revalidation — 2026-09-09
 
 HM-039 revalidated the matrix against merge
 `ddde04baf8da57b20fd184eda8e29d5424f0fd0a`, not only against the release tag:
@@ -68,16 +68,14 @@ HM-039 revalidated the matrix against merge
   create/adopt operation is still a gap; no mobile capability, device, or inbox
   route exists on the merged revision. The planned
   `tests/dashboard/test_mobile_api.py` file is also absent.
-- The repository wrapper was attempted for the targeted topology tests using an
-  existing Python 3.13 interpreter via `HERMES_PYTHON` (no packages were
-  installed). It completed with 22 files processed: 79 tests passed, 21 failed,
-  and 15 files had collection/import errors. The failures and collection errors
-  are attributable to missing environment packages (`rich`, `starlette`,
-  `fastapi`, `uvicorn`, `python-dotenv`, and `concurrent_log_handler`); no
-  source-level regression was isolated. Passing evidence includes gateway
-  runtime health, status, clarify gateway, and MCP OAuth cancellation/client
-  callback suites. HM-039 stays open until the wrapper can run in a complete
-  Hermes development environment.
+- The repository wrapper ran in the Docker-only Hermes development environment
+  with the locked project and dev dependencies. The 16 available targeted files
+  completed with 158 tests passed, 0 failed, and 0 collection/import errors.
+  Passing coverage includes gateway runtime health, status, clarify gateway,
+  MCP OAuth/profile behavior, canonical profile sessions, routine scoping,
+  attachment handling, restart lifecycle, session replay, and profile
+  isolation. HM-039 source-level revalidation and its available test evidence
+  are complete; the absent planned mobile API test remains an explicit gap.
 - No Android device/emulator run and no live home-server compatibility run are
   claimed. The mobile proof recipe remains bounded and requires manual Android
   and Tailscale validation in the later acceptance tasks.

@@ -46,3 +46,10 @@
 - Validation: installed Android command-line tools, API 36/37.0 platforms, build tools 36.0.0/37.0.0, platform-tools, emulator, API 37.0 Google APIs x86_64 image, and the automatically resolved RN NDK in Docker only; reconciled npm dependencies in the container because the checked package manifest and lockfile disagree; clean CNG passed; `:app:processReleaseMainManifest` and `:app:processReleaseManifest` passed; final release manifest has min SDK 31/target SDK 36 and no CAMERA, RECORD_AUDIO, or SYSTEM_ALERT_WINDOW; SecureStore cloud/device-transfer exclusions verified.
 - Limitation: Docker Desktop does not expose `/dev/kvm`, so the API 37 AVD was created but not booted; no emulator, physical-device, signed-release, or remote-provider delivery smoke result is claimed.
 - Outcome: HM-042 complete. HM-043 still owns reproducible build/smoke helpers and API 31/API 37 runtime acceptance. No signing material, provider credential, or host-global installation was added.
+
+## 2026-09-09 — complete HM-039 with Docker-only Hermes test dependencies
+- Intent: close merged-revision contract revalidation after the host Python environment lacked the project runtime packages.
+- Risk class: medium local container dependency installation and read-only contract validation; authorization: explicit request to install test tooling only in Docker; no host Python package, repository dependency, source, secret, or external service write.
+- Environment: the persistent `hermes-mobile-android-test` container received a separate Python venv from the locked project and dev dependencies; the checked repository snapshot was tested without copying secrets or pre-existing untracked mobile assets.
+- Validation: `scripts/run_tests.sh -j 4` processed 16 available targeted contract/topology files; 158 tests passed, 0 failed, and 0 collection/import errors. Source/path checks and the documented server gaps remain explicit, including absent `tests/dashboard/test_mobile_api.py`.
+- Outcome: HM-039 complete. No live mobile/server compatibility run or implementation of the missing mobile API contract is claimed.

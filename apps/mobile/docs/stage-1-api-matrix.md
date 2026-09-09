@@ -163,14 +163,13 @@ assumptions:
    file and does not exist yet. Existing Desktop and gateway tests are evidence
    of current behavior, not substitutes for mobile contract coverage.
 
-### September 8 closure checklist
+### September 9 closure checklist
 
 HM-038 resolved mobile topology/contract choices; HM-039 completed source-level
-revalidation on merge `ddde04b`. The existing targeted-test wrapper was also
-attempted, but the current Python environment lacks project runtime packages;
-therefore HM-039 remains open until the same checks can run in a complete
-Hermes development environment. Historical Existing labels do not close these
-integration gaps:
+revalidation on merge `ddde04b`. The existing targeted-test wrapper then ran in
+the Docker-only Hermes development environment: 16 available files completed
+with 158 tests passed, 0 failed, and 0 collection/import errors. Historical
+Existing labels do not close these integration gaps:
 
 - Android native login/refresh and MCP OAuth return on separate phone/server
   machines; no assumption that registering an app scheme changes a loopback-only
@@ -194,6 +193,6 @@ Current source ownership on the merged revision: auth and WS tickets in
 `hermes_cli/web_routers/cron.py` plus `web_models.py`, and attachment helpers in
 `tui_gateway/prompt_attachments.py`. Twenty-eight referenced source/test paths
 were checked on the checkout; the planned mobile API test file is intentionally
-absent. The wrapper result and its environment blocker are recorded in
-`docs/upstream-baseline.md` and `TASKS.md`. The new `session.control.*` surface
+absent. The wrapper result and the remaining server/mobile contract gaps are
+recorded in `docs/upstream-baseline.md` and `TASKS.md`. The new `session.control.*` surface
 is recorded for later parity, not a Stage 1 requirement.
