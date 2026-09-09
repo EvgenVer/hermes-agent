@@ -133,10 +133,12 @@ A Docker-only release build completed with `BUILD SUCCESSFUL` and produced a
 128 MB `app-release.apk`. The disposable container had to reconcile the
 existing npm resolver in `node_modules`; the checked package manifest and lock
 file still disagree, so this does not yet prove a clean repository install.
-The API 37 AVD could be created but did not complete a software-only boot
-without `/dev/kvm`, and the API 31/API 37 no-Metro launch checks therefore
-remain open. Release output is unsigned/debug-key based and is not signed
-release or physical-device acceptance.
+The host's pre-existing API 31 AVD passed the helper's no-Metro install,
+launch, force-stop, and relaunch check (`5025 -> 5087`). The API 37 AVD could
+be created in Docker but did not complete a software-only boot without
+`/dev/kvm`, so the API 37 runtime check remains open. Release output is
+unsigned/debug-key based and is not signed release or physical-device
+acceptance.
 
 ## Historical security and release status — 2026-08-26
 

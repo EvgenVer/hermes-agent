@@ -53,9 +53,9 @@ export function parseArgs(argv) {
   return options
 }
 
-function capture(command, args, { allowFailure = false } = {}) {
+function capture(command, args, { allowFailure = false, timeoutMs = 15_000 } = {}) {
   return new Promise((resolveCapture, rejectCapture) => {
-    execFile(command, args, { cwd: APP_DIR, encoding: 'utf8', timeout: 15_000 }, (error, stdout, stderr) => {
+    execFile(command, args, { cwd: APP_DIR, encoding: 'utf8', timeout: timeoutMs }, (error, stdout, stderr) => {
       if (error && !allowFailure) {
         const detail = stderr.trim() || stdout.trim() || error.message
         rejectCapture(new Error(`${command} ${args.join(' ')} failed: ${detail}`))
@@ -153,7 +153,7 @@ export async function testAndroid({ device, api, apk, prebuild = false }) {
   })()
   if (!existsSync(apkPath)) throw new Error(`Release APK does not exist: ${apkPath}`)
 
-  await adb(['-s', device, 'install', '-r', apkPath])
+  await adb(['-s', device, 'install', '-r', apkPath], { timeoutMs: 120_000 })
   const firstPid = await launch(device)
   await adb(['-s', device, 'shell', 'am', 'force-stop', PACKAGE_NAME])
   await waitForExit(device)

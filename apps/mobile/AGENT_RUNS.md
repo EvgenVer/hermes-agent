@@ -61,3 +61,11 @@
 - Validation: Node syntax/help checks passed; the Docker-only release helper completed `BUILD SUCCESSFUL` and produced a 128 MB production APK after a container-only resolver reconciliation; API 37 AVD creation succeeded but software-only boot stalled without `/dev/kvm`.
 - Findings: the checked mobile package manifest and lockfile still disagree, so clean-install reproducibility is not proven; API 31/API 37 no-Metro runtime smoke remains open for a working emulator or explicit device. The helper deliberately reports this as a release gate and never starts Metro or installs packages.
 - Outcome: HM-043 implementation is committed as an open task pending clean repository install and runtime verification.
+
+## 2026-09-09 — validate HM-043 API 31 smoke and extend adb install timeout
+- Intent: run the new release-bundle helper against the existing API 31 AVD and correct the timeout exposed by a cold APK install.
+- Risk class: medium local emulator/app installation; authorization: explicit request to execute open Tasks; no SDK/npm installation, secret access, signing material, provider credential, or outward operation.
+- Changed files: `apps/mobile/scripts/test-android.mjs`, `docs/scaffold-validation.md`, and `TASKS.md`.
+- Validation: API 31 target reported SDK 31; release APK installed and the helper passed launch, force-stop, and relaunch with PIDs `5025 -> 5087`. The install timeout is now 120 seconds for large APKs; ordinary adb probes retain the shorter timeout.
+- Findings: Docker API 37 software-only boot remains unavailable without `/dev/kvm`; the checked package manifest/lock mismatch still prevents a clean-install claim.
+- Outcome: HM-043 remains open only for clean repository install and API 37 runtime verification; the API 31 no-Metro smoke criterion is evidenced.
