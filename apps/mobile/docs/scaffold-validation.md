@@ -109,6 +109,35 @@ or EAS build secret store. Those files and credentials must stay out of git.
 The client-only `expo-notifications` package does not prove remote delivery;
 API 31/API 37 native and provider delivery checks remain acceptance work.
 
+## HM-043 reproducible Android build and smoke helpers — 2026-09-09
+
+The mobile package now exposes two no-install helpers from the repository root:
+
+```text
+npm run build:android --workspace apps/mobile -- --variant release
+npm run test:e2e:android --workspace apps/mobile -- --device emulator-5554 --api 31
+npm run test:e2e:android --workspace apps/mobile -- --device emulator-5556 --api 37
+```
+
+The build helper uses the existing Expo CLI, generated Android project, SDK,
+and Gradle wrapper. It accepts `--prebuild` for a CNG prebuild with
+`--no-install`, never runs npm or Expo package installation, and does not start
+Metro. The smoke helper requires an explicit adb serial and expected API level,
+checks the target before installing the release APK, launches the production
+JS bundle, force-stops it, and verifies a second launch. `--apk` can be used to
+reuse an already-built release artifact. Missing SDK/project/Expo/adb inputs
+produce actionable errors instead of silently falling back to a development
+server.
+
+A Docker-only release build completed with `BUILD SUCCESSFUL` and produced a
+128 MB `app-release.apk`. The disposable container had to reconcile the
+existing npm resolver in `node_modules`; the checked package manifest and lock
+file still disagree, so this does not yet prove a clean repository install.
+The API 37 AVD could be created but did not complete a software-only boot
+without `/dev/kvm`, and the API 31/API 37 no-Metro launch checks therefore
+remain open. Release output is unsigned/debug-key based and is not signed
+release or physical-device acceptance.
+
 ## Historical security and release status — 2026-08-26
 
 `npm audit --workspace apps/mobile --json` reports 18 transitive findings:

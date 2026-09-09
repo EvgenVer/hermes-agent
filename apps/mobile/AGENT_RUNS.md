@@ -53,3 +53,11 @@
 - Environment: the persistent `hermes-mobile-android-test` container received a separate Python venv from the locked project and dev dependencies; the checked repository snapshot was tested without copying secrets or pre-existing untracked mobile assets.
 - Validation: `scripts/run_tests.sh -j 4` processed 16 available targeted contract/topology files; 158 tests passed, 0 failed, and 0 collection/import errors. Source/path checks and the documented server gaps remain explicit, including absent `tests/dashboard/test_mobile_api.py`.
 - Outcome: HM-039 complete. No live mobile/server compatibility run or implementation of the missing mobile API contract is claimed.
+
+## 2026-09-09 — implement HM-043 Android build and smoke helpers
+- Intent: add reproducible no-install Android build and explicit-device release smoke commands without installing dependencies globally or exposing secrets.
+- Risk class: medium local tooling and container validation; authorization: explicit user request to execute the open Tasks and use Docker for test tooling; no host install, secret access, signing material, provider credential, or outward operation.
+- Changed files: `apps/mobile/package.json`, `apps/mobile/scripts/build-android.mjs`, `apps/mobile/scripts/test-android.mjs`, and `docs/scaffold-validation.md`.
+- Validation: Node syntax/help checks passed; the Docker-only release helper completed `BUILD SUCCESSFUL` and produced a 128 MB production APK after a container-only resolver reconciliation; API 37 AVD creation succeeded but software-only boot stalled without `/dev/kvm`.
+- Findings: the checked mobile package manifest and lockfile still disagree, so clean-install reproducibility is not proven; API 31/API 37 no-Metro runtime smoke remains open for a working emulator or explicit device. The helper deliberately reports this as a release gate and never starts Metro or installs packages.
+- Outcome: HM-043 implementation is committed as an open task pending clean repository install and runtime verification.

@@ -25,6 +25,8 @@
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
+    "build:android": "node scripts/build-android.mjs",
+    "test:e2e:android": "node scripts/test-android.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
     "test": "jest --config jest.config.js",
