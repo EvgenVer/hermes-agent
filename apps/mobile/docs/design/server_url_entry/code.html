@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hermes Mobile — Server URL</title>
+<style>
+:root{color-scheme:dark;--bg:#0f172a;--surface:#182238;--surface2:#222d45;--text:#f8fafc;--muted:#a8b4c9;--line:#33415d;--amber:#ffdda2;--orange:#ffc061}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}.topbar{min-height:56px;padding:max(4px,env(safe-area-inset-top)) 12px 4px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}.topbar button{width:48px;min-width:48px;height:48px;border:0;background:transparent;color:var(--muted);font-size:24px}.topbar h1{flex:1;margin:0;color:var(--amber);font-size:18px}.chip{border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:var(--muted);font-size:12px;white-space:nowrap}.main{width:min(100%,412px);margin:auto;padding:24px 16px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 56px)}.card{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:20px}.eyebrow{margin:0 0 8px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.card h2{margin:0;font-size:26px;line-height:1.2;letter-spacing:-.03em}.intro{margin:10px 0 0;color:var(--muted);font-size:15px}.field{margin-top:24px}.field label{display:block;margin-bottom:8px;font-size:14px;font-weight:600}.input{min-height:56px;display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid #70809c;border-radius:10px;background:var(--surface2)}.input span{color:var(--muted);font-size:20px}.input input{min-width:0;flex:1;height:52px;border:0;outline:0;background:transparent;color:var(--text);font:inherit}.input input::placeholder{color:#9aa8bf}.help{margin:8px 0 0;color:var(--muted);font-size:13px}.notice{display:flex;align-items:flex-start;gap:8px;margin-top:18px;padding:12px;border:1px solid #7c6331;border-radius:10px;background:#332a18;color:var(--orange);font-size:13px}.buttons{display:grid;gap:10px;margin-top:22px}button.action{min-height:52px;border-radius:10px;font:inherit;font-weight:700}.continue{border:0;background:var(--amber);color:#412d00}.cancel{border:1px solid #70809c;background:transparent;color:var(--text)}.footnote{margin:16px 0 0;text-align:center;color:var(--muted);font-size:12px}@media(min-width:390px){.main{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<header class="topbar"><button type="button" aria-label="Go back">‹</button><h1>Hermes Mobile</h1><span class="chip" aria-label="Connection status: not connected">Not connected</span></header>
+<main class="main" aria-labelledby="screen-title">
+<section class="card">
+<p class="eyebrow">F03 · Server URL</p>
+<h2 id="screen-title">Add a Hermes server</h2>
+<p class="intro">Enter the HTTPS address of the server you want to use.</p>
+<form class="field" novalidate>
+<label for="server-url">Server URL</label>
+<div class="input"><span aria-hidden="true">↗</span><input id="server-url" name="server-url" type="url" inputmode="url" autocomplete="url" placeholder="https://hermes.example.ts.net" autofocus></div>
+<p class="help">Use HTTPS for remote connections. Local development URLs are allowed only where explicitly permitted.</p>
+<div class="notice"><span aria-hidden="true">ⓘ</span><span>The address is validated before sign-in. Credentials are not entered or stored here.</span></div>
+<div class="buttons"><button class="action continue" type="submit">Continue&nbsp; →</button><button class="action cancel" type="button">Cancel</button></div>
+</form>
+</section>
+<p class="footnote">Keyboard-safe layout · actions stay above the gesture area</p>
+</main>
+</body>
+</html>

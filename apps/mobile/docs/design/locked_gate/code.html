@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hermes Mobile — Unlock</title>
+<style>
+:root{color-scheme:dark;--bg:#0f172a;--surface:#182238;--surface2:#222d45;--text:#f8fafc;--muted:#a8b4c9;--line:#33415d;--amber:#ffdda2;--orange:#ffc061;--red:#ff8c85;--blue:#75aefc}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}.topbar{min-height:56px;padding:max(4px,env(safe-area-inset-top)) 16px 4px;display:flex;align-items:center;border-bottom:1px solid var(--line)}.topbar h1{margin:0;color:var(--amber);font-size:18px}.main{width:min(100%,412px);margin:auto;padding:32px 16px max(28px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 56px)}.hero{text-align:center}.mark{width:96px;height:96px;margin:0 auto 20px;border:1px solid var(--line);border-radius:24px;background:var(--surface);display:grid;place-items:center;color:var(--amber);font-size:48px}.eyebrow{margin:0 0 8px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.hero h2{margin:0;font-size:26px;line-height:1.2;letter-spacing:-.03em}.hero p{margin:12px auto 0;max-width:320px;color:var(--muted);font-size:15px}.status{display:flex;align-items:flex-start;gap:10px;margin-top:24px;padding:14px;border:1px solid #7c6331;border-radius:12px;background:#332a18}.status strong{display:block;color:var(--orange);font-size:14px}.status span{display:block;margin-top:3px;color:var(--muted);font-size:13px}.actions{display:grid;gap:10px;margin-top:20px}button{width:100%;min-height:52px;border-radius:10px;font:inherit;font-weight:700}.primary{border:0;background:var(--amber);color:#412d00}.danger{border:1px solid #9b4a4a;background:transparent;color:var(--red);min-height:48px}.states{display:grid;gap:8px;margin-top:22px}.state{display:flex;align-items:center;gap:9px;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:13px}.state.current{border-color:#7c6331;background:#332a18;color:var(--orange)}.state.offline{border-color:#385d91;background:#162b49;color:var(--blue)}.state strong{color:var(--text)}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>Hermes Mobile</h1></header>
+<main class="main" aria-labelledby="screen-title">
+<section class="hero"><div class="mark" aria-hidden="true">⌁</div><p class="eyebrow">F07 · Locked gate</p><h2 id="screen-title">Unlock Hermes Mobile</h2><p>Server data stays hidden until local protection is cleared.</p></section>
+<section class="status" aria-live="polite"><span aria-hidden="true">↻</span><div><strong>Reconnecting</strong><span>The last connection changed while the app was protected. No remote revocation is claimed here.</span></div></section>
+<div class="actions"><button class="primary" type="button">Unlock with biometrics</button><button class="danger" type="button">Disconnect and forget local data</button></div>
+<section class="states" aria-label="Locked gate state variants"><div class="state current"><span aria-hidden="true">↻</span><strong>Reconnecting</strong></div><div class="state offline"><span aria-hidden="true">!</span><strong>Offline · local data removal only</strong></div><div class="state"><span aria-hidden="true">×</span><strong>Authentication expired · sign in again</strong></div></section>
+</main>
+</body>
+</html>

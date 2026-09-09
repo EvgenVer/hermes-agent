@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hermes Mobile — Connect</title>
+<style>
+:root{color-scheme:dark;--bg:#0f172a;--surface:#182238;--surface2:#222d45;--text:#f8fafc;--muted:#a8b4c9;--line:#33415d;--amber:#ffdda2;--blue:#75aefc}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}.shell{width:min(100%,412px);min-height:100dvh;margin:auto;padding:max(28px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center}.brand{text-align:center}.mark{width:88px;height:88px;margin:0 auto 24px;border:1px solid var(--line);border-radius:24px;background:var(--surface);display:grid;place-items:center;color:var(--amber);font-size:40px}.eyebrow{margin:0 0 8px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.brand h1{margin:0;font-size:28px;line-height:1.15;letter-spacing:-.03em}.brand p{margin:12px auto 0;max-width:300px;color:var(--muted);font-size:16px}.card{margin-top:32px;border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:18px}.card-row{display:flex;align-items:flex-start;gap:12px}.icon{color:var(--blue);font-size:22px;line-height:1}.card h2{margin:0;font-size:18px;line-height:1.3}.card p{margin:6px 0 0;color:var(--muted);font-size:14px}.actions{display:grid;gap:10px;margin-top:24px}button{width:100%;min-height:48px;border-radius:10px;border:1px solid transparent;font:inherit;cursor:pointer}.primary{background:var(--amber);color:#412d00;font-weight:700;min-height:52px}.secondary{background:transparent;border-color:#70809c;color:var(--text)}.note{margin:20px 0 0;color:var(--muted);font-size:13px;text-align:center}@media(min-width:390px){.shell{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<main class="shell" aria-labelledby="screen-title">
+<section class="brand">
+<div class="mark" aria-hidden="true">◈</div>
+<p class="eyebrow">F02 · Welcome / connect</p>
+<h1 id="screen-title">Connect to Hermes</h1>
+<p>Control your self-hosted Hermes server from your phone.</p>
+</section>
+<section class="card" aria-labelledby="private-access-title">
+<div class="card-row"><span class="icon" aria-hidden="true">ⓘ</span><div><h2 id="private-access-title">Private access expected</h2><p>Use an HTTPS address reachable through your private network, such as Tailscale. Authentication happens in the supported Hermes sign-in flow.</p></div></div>
+</section>
+<div class="actions">
+<button class="primary" type="button">Add server</button>
+<button class="secondary" type="button">How connection works</button>
+</div>
+<p class="note">No server data is shown before authentication.</p>
+</main>
+</body>
+</html>

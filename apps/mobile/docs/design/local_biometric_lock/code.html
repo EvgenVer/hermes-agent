@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hermes Mobile — Biometric lock</title>
+<style>
+:root{color-scheme:dark;--bg:#0f172a;--surface:#182238;--surface2:#222d45;--text:#f8fafc;--muted:#a8b4c9;--line:#33415d;--amber:#ffdda2;--orange:#ffc061;--red:#ff8c85}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}.topbar{min-height:56px;padding:max(4px,env(safe-area-inset-top)) 12px 4px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}.topbar button{width:48px;min-width:48px;height:48px;border:0;background:transparent;color:var(--muted);font-size:24px}.topbar h1{flex:1;margin:0;color:var(--amber);font-size:18px}.main{width:min(100%,412px);margin:auto;padding:32px 16px max(28px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 56px)}.hero{text-align:center}.mark{width:104px;height:104px;margin:0 auto 20px;border:1px solid var(--line);border-radius:28px;background:var(--surface);display:grid;place-items:center;color:var(--amber);font-size:54px}.eyebrow{margin:0 0 8px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.hero h2{margin:0;font-size:26px;line-height:1.2;letter-spacing:-.03em}.hero p{max-width:300px;margin:12px auto 0;color:var(--muted);font-size:16px}.actions{display:grid;gap:10px;margin-top:28px}button.action{width:100%;min-height:52px;border-radius:10px;font:inherit;font-weight:700}.primary{border:0;background:var(--amber);color:#412d00}.secondary{border:1px solid #70809c;background:transparent;color:var(--text)}.states{display:grid;gap:8px;margin-top:22px}.state{display:flex;align-items:flex-start;gap:9px;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:13px}.state strong{display:block;color:var(--text);font-size:13px}.state span{display:block;margin-top:2px}.state.warn{border-color:#7c6331;background:#332a18}.state.warn strong{color:var(--orange)}.state.error{border-color:#7b3a3a;background:#321e26}.state.error strong{color:var(--red)}@media(min-width:390px){.main{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<header class="topbar"><button type="button" aria-label="Go back">‹</button><h1>Hermes Mobile</h1></header>
+<main class="main" aria-labelledby="screen-title">
+<section class="hero"><div class="mark" aria-hidden="true">⌁</div><p class="eyebrow">F06 · Local biometric lock</p><h2 id="screen-title">Protect Hermes Mobile</h2><p>Require Android biometrics when the app returns from the background. Local protection is backed by the device keystore.</p></section>
+<div class="actions"><button class="action primary" type="button">Enable biometric lock</button><button class="action secondary" type="button">Not now</button></div>
+<section class="states" aria-label="Biometric state variants">
+<div class="state"><span aria-hidden="true">✓</span><div><strong>Available</strong><span>Biometric setup can continue</span></div></div>
+<div class="state warn"><span aria-hidden="true">!</span><div><strong>Unavailable or not enrolled</strong><span>Choose Not now or enroll biometrics in Android settings</span></div></div>
+<div class="state error"><span aria-hidden="true">×</span><div><strong>Cancelled</strong><span>Lock remains disabled until the user chooses again</span></div></div>
+</section>
+</main>
+</body>
+</html>

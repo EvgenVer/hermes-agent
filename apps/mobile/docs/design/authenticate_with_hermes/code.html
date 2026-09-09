@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hermes Mobile — Authenticate</title>
+<style>
+:root{color-scheme:dark;--bg:#0f172a;--surface:#182238;--surface2:#222d45;--text:#f8fafc;--muted:#a8b4c9;--line:#33415d;--amber:#ffdda2;--blue:#75aefc;--orange:#ffc061}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}.topbar{min-height:56px;padding:max(4px,env(safe-area-inset-top)) 12px 4px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}.topbar button{width:48px;min-width:48px;height:48px;border:0;background:transparent;color:var(--muted);font-size:24px}.topbar h1{flex:1;margin:0;color:var(--amber);font-size:18px}.chip{border:1px solid #385d91;border-radius:99px;padding:7px 10px;color:var(--blue);font-size:12px;white-space:nowrap}.main{width:min(100%,412px);margin:auto;padding:24px 16px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 56px)}.card{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:20px}.eyebrow{margin:0 0 8px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.server{display:flex;align-items:flex-start;gap:12px}.mark{width:56px;height:56px;flex:0 0 auto;border:1px solid var(--line);border-radius:14px;background:var(--surface2);display:grid;place-items:center;color:var(--amber);font-size:26px}.server h2{margin:0;font-size:24px;line-height:1.2;letter-spacing:-.03em}.server p{margin:6px 0 0;color:var(--muted);font-size:13px;overflow-wrap:anywhere}.handoff{display:flex;align-items:flex-start;gap:10px;margin-top:20px;padding:14px;border:1px solid #385d91;border-radius:10px;background:#162b49}.handoff strong{display:block;color:var(--blue);font-size:14px}.handoff span{display:block;margin-top:4px;color:var(--muted);font-size:13px}.primary{width:100%;min-height:52px;margin-top:20px;border:0;border-radius:10px;background:var(--amber);color:#412d00;font:inherit;font-weight:700}.variants{display:grid;gap:8px;margin-top:16px}.variant{display:flex;align-items:center;gap:9px;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:13px}.variant.warn{border-color:#7c6331;background:#332a18;color:var(--orange)}.different{width:100%;min-height:48px;margin-top:14px;border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px}@media(min-width:390px){.main{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<header class="topbar"><button type="button" aria-label="Go back">‹</button><h1>Hermes Mobile</h1><span class="chip">Waiting for sign-in</span></header>
+<main class="main" aria-labelledby="screen-title">
+<section class="card">
+<p class="eyebrow">F04 · Authenticate with Hermes</p>
+<div class="server"><div class="mark" aria-hidden="true">◈</div><div><h2 id="screen-title">Authenticate with Hermes</h2><p>Local Hermes · https://hermes.example.ts.net</p></div></div>
+<div class="handoff"><span aria-hidden="true">↗</span><div><strong>Supported sign-in flow</strong><span>Continue to the Hermes sign-in step. Return to this app when the server confirms the session.</span></div></div>
+<button class="primary" type="button">Continue with Hermes&nbsp; →</button>
+<div class="variants" aria-label="Authentication state variants">
+<div class="variant"><span aria-hidden="true">◷</span>Waiting for provider</div>
+<div class="variant warn"><span aria-hidden="true">!</span>Return failed or expired</div>
+<div class="variant"><span aria-hidden="true">×</span>Sign-in cancelled</div>
+</div>
+</section>
+<button class="different" type="button">↔ &nbsp;Use a different server</button>
+</main>
+</body>
+</html>
