@@ -344,6 +344,10 @@ The copy under `docs/design/` is a synchronized export for design tools, not an
 independent specification. Repair in batches of at most five files. HTML is a
 reviewable mockup; native screens remain React Native. Use system fonts/local
 assets and a small clickable prototype, without new runtime UI dependencies.
+The owner has selected a dark-only design handoff: every screen prototype and
+HTML/PNG template must render in the dark theme, with no light-theme variants.
+HM-051 owns the bounded re-render and contrast/layout validation for the existing
+design set before the clickable prototype is accepted.
 
 ## Keeping Hermes current
 

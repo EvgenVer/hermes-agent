@@ -73,6 +73,9 @@ Hermes server, starting with Android and the owner's home deployment.
   be compatibility-tested on Android 17 (API 37). The target advances when a
   stable vetted Expo release supports the newer API.
 - The first interface language is English only.
+- All mobile screen prototypes and HTML/PNG design templates in the current
+  handoff use the dark theme only; light-theme screens and component variants
+  are not produced.
 - The repository remains an npm workspace monorepo. The mobile package lives at
   apps/mobile and may depend on platform-neutral exports from apps/shared, but
   never on apps/desktop.

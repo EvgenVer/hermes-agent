@@ -116,7 +116,7 @@ The visual style is **Corporate / Modern** with a focus on **Tonal Layering**. I
 
 ## Colors
 
-The palette is "dark-first," utilizing a deep navy-graphite foundation to reduce eye strain during long operational sessions.
+The palette is "dark-only," utilizing a deep navy-graphite foundation to reduce eye strain during long operational sessions. All mobile prototypes and template exports use this palette; no light-theme variant is produced.
 
 - **Primary (Amber/Gold):** Reserved for brand touchpoints and critical call-to-actions. It is used sparingly to maintain its impact.
 - **Surface Strategy:** Depth is communicated through lightness. The background is the darkest layer, with containers and cards becoming progressively lighter graphite shades to indicate elevation.
