@@ -49,7 +49,7 @@ remediation is an official compatible Expo/Router/Metro/config-plugin chain
 update; direct overrides were not applied. The high findings remain a release
 blocker and are delegated to HM-B009 for separately authorized remediation.
 
-## HM-042 native configuration revalidation — 2026-09-08
+## HM-042 native configuration revalidation — 2026-09-09
 
 The pre-existing `apps/mobile/android/` directory was inventoried before
 classification. `git ls-files` reports no tracked files under that directory;
@@ -67,14 +67,40 @@ permissions from the notification stack. `expo-secure-store` emits both
 Android backup attributes, and its rules exclude the SecureStore shared
 preferences file from cloud backup and device transfer.
 
-The release-variant merge could not be completed in the current offline
-environment: the local Gradle cache lacks `react-android:0.86.2` and
-`hermes-android:250829098.0.16` release AARs. The available cached debug/main
-merge and the CNG output are recorded as configuration evidence only; HM-042
-stays open until the release merge is rerun with those artifacts available and
-confirms that no microphone or overlay permission survives. No signing key,
-keystore, or provider credential is tracked; mobile `.gitignore` now excludes
-local `*.keystore` and `*.jks` files.
+The missing release artifacts were provisioned only inside the disposable
+Docker test environment `hermes-mobile-android-test`; the host SDK, JDK, npm,
+and Gradle installation were not changed. A tracked `HEAD` snapshot was copied
+into the container workspace, and the package resolver was reconciled there
+because the checked `package.json` and lockfile currently disagree on several
+runtime entries. The host lockfile and generated `android/` directory were not
+modified by that container-only install.
+
+The container installed the Android command-line toolchain, platforms 36 and
+37.0, build tools 36.0.0 and 37.0.0, platform-tools, the emulator, and a
+Google APIs API 37.0 x86_64 system image. Clean CNG and both release manifest
+tasks then passed:
+
+```text
+node ../../node_modules/expo/bin/cli prebuild --no-install --clean --platform android
+bash ./gradlew :app:processReleaseMainManifest --no-daemon --console=plain
+bash ./gradlew :app:processReleaseManifest --no-daemon --console=plain
+```
+
+The final merged release manifest reports `minSdkVersion=31` and
+`targetSdkVersion=36`. It contains no `CAMERA`, `RECORD_AUDIO`, or
+`SYSTEM_ALERT_WINDOW` permission. The remaining storage declarations are
+limited to `READ_EXTERNAL_STORAGE` and `WRITE_EXTERNAL_STORAGE` with
+`maxSdkVersion=32`, for picker compatibility. The release application uses
+both SecureStore backup attributes, and the generated cloud-backup and
+device-transfer rules exclude the `SecureStore` shared-preferences file while
+including ordinary shared preferences.
+
+No signing key, keystore, or provider credential is tracked; mobile
+`.gitignore` excludes local `*.keystore` and `*.jks` files. HM-042 is complete
+for reproducible configuration and release-manifest validation. The API 37
+AVD was created in the Docker volume, but Docker Desktop did not expose
+`/dev/kvm`; therefore no emulator boot, physical-device, signed-release, or
+remote-provider delivery result is claimed here.
 
 Remote Android push additionally needs native project configuration: register
 `com.evgenver.hermesmobile` in the selected Expo/Firebase/FCM project and

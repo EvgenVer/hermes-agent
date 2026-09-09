@@ -34,10 +34,10 @@ flow. It must not retry a failed biometric read indefinitely.
 On Android, the SecureStore config plugin and automatic backup handling are
 important. Expo's documentation says the generated backup rules exclude the
 SecureStore shared-preferences path; any custom backup configuration must
-preserve that exclusion. HM-027/HM-033 must inspect the generated config if a
-custom backup rule is introduced.
+preserve that exclusion. HM-042 inspected the generated release configuration
+and recorded the result below.
 
-## HM-042 native CNG revalidation — 2026-09-08
+## HM-042 native CNG revalidation — 2026-09-09
 
 The mobile config now explicitly applies `expo-secure-store`, disables the
 unused image-picker camera and microphone permission prompts, blocks
@@ -58,12 +58,25 @@ rule sets include ordinary shared preferences while excluding the
 credentials remain Keystore/SecureStore-owned and are not restored through
 cloud backup or device transfer.
 
-The complete release-variant manifest merge remains pending because the local
-offline Gradle cache does not contain the React Native and Hermes release AARs.
-The CNG source manifest and cached debug/main merge are evidence for the
-configuration, not release acceptance. Do not claim a signed release or
-physical-device permission result until the release merge is rerun with those
-artifacts available.
+The complete release-variant manifest merge was rerun in the disposable Docker
+test environment `hermes-mobile-android-test`, which has its own Android SDK,
+JDK, npm packages, Gradle cache, and workspace volumes. The host environment
+and repository-generated `android/` tree were not changed. Clean CNG and
+`:app:processReleaseMainManifest` plus `:app:processReleaseManifest` completed
+successfully. The final release manifest contains no `CAMERA`, `RECORD_AUDIO`,
+or `SYSTEM_ALERT_WINDOW` permission; the only external-storage entries are
+the picker compatibility declarations capped at API 32.
+
+The final application attributes point to both SecureStore backup rule files.
+Each rule set includes ordinary shared preferences and excludes the
+`SecureStore` shared-preferences file for both cloud backup and device
+transfer. This validates the credential backup boundary for the release
+variant, but it is not a signed APK or a runtime device result.
+
+The container also has an API 37.0 Google APIs x86_64 AVD for the next smoke
+task. Docker Desktop reports no `/dev/kvm`, so hardware-accelerated emulator
+execution was not available and no API 37 emulator or physical-device smoke
+result is claimed.
 
 ## Failure and privacy rules
 
